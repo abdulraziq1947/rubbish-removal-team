@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {
+  serviceAreas,
+  getServiceArea,
+  getImageForArea,
+} from '../data/serviceAreas';
+
+export function getStaticPaths() {
+  return serviceAreas.map((area) => ({
+    params: { slug: area.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const area = getServiceArea(slug!);
+
+if (!area) {
+  return Astro.redirect('/');
+}
+
+const image = getImageForArea(area.slug);
+const nearbyAreas = serviceAreas
+  .filter((a) => a.region === area.region && a.slug !== area.slug)
+  .slice(0, 8);
+
+const pageTitle = `Rubbish Removal ${area.name} | Rubbish Removal Team`;
+const pageDescription = `Professional rubbish removal and waste clearance in ${area.name}, ${area.region}. House clearances, garden waste, and junk removal from Rubbish Removal Team.`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <section class="hero">
+    <img
+      class="hero__image"
+      src={image.url}
+      alt={image.alt}
+      width="1200"
+      height="800"
+      loading="eager"
+    />
+    <div class="hero__overlay"></div>
+    <div class="container hero__content">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> / {area.name}
+      </nav>
+      <h1>Rubbish Removal in {area.name}</h1>
+      <p>
+        Trusted waste clearance and junk removal serving {area.name} and surrounding
+        areas in the {area.region}.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container content-block">
+      <div>
+        <h2>Waste Clearance in {area.name}</h2>
+        <p>
+          Need rubbish removed in {area.name}? Rubbish Removal Team provides a
+          dependable clearance service for households and businesses across the{' '}
+          {area.region}. From single items to full property clearances, we handle the
+          collection, loading, and responsible disposal on your behalf.
+        </p>
+        <p>
+          Our crews work efficiently and respectfully, leaving your space clean and
+          clutter-free. We cover {area.name} and neighbouring towns, making it easy to
+          get rid of unwanted furniture, appliances, garden waste, and general junk.
+        </p>
+      </div>
+      <div>
+        <img
+          src={image.url}
+          alt={`Rubbish removal services in ${area.name}`}
+          width="600"
+          height="400"
+          loading="lazy"
+        />
+        <p class="image-credit">Photo: {image.credit}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2>Services in {area.name}</h2>
+      <ul class="services-list">
+        <li>House and flat clearances in {area.name}</li>
+        <li>Garden waste and green waste removal</li>
+        <li>Garage, loft, and shed clear-outs</li>
+        <li>Office and commercial waste clearance</li>
+        <li>Bulky item and furniture collection</li>
+        <li>Construction and renovation debris removal</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Why Choose Rubbish Removal Team</h2>
+      <p>
+        Based in the {area.region}, we understand the needs of local residents and
+        businesses in {area.name}. Our approach is simple: turn up on time, do the work
+        properly, and dispose of everything responsibly. Items that can be recycled or
+        reused are diverted from landfill wherever possible.
+      </p>
+      <p>
+        Whether you are moving home, renovating, managing a rental property, or simply
+        decluttering, Rubbish Removal Team makes waste removal in {area.name}
+        straightforward and stress-free.
+      </p>
+
+      {
+        nearbyAreas.length > 0 && (
+          <>
+            <h3>Nearby Service Areas</h3>
+            <div class="nearby-links">
+              {nearbyAreas.map((nearby) => (
+                <a href={`/${nearby.slug}`}>{nearby.name}</a>
+              ))}
+            </div>
+          </>
+        )
+      }
+    </div>
+  </section>
+</Layout>

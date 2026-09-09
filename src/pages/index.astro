@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { regions, getAreasByRegion, stockImages } from '../data/serviceAreas';
+
+const heroImage = stockImages[0];
+---
+
+<Layout
+  title="Rubbish Removal Team | Waste Clearance Across the Midlands & Manchester"
+  description="Rubbish Removal Team provides professional waste clearance, house clearance, and junk removal across the West Midlands and Greater Manchester."
+>
+  <section class="hero">
+    <img
+      class="hero__image"
+      src={heroImage.url}
+      alt={heroImage.alt}
+      width="1200"
+      height="800"
+      loading="eager"
+    />
+    <div class="hero__overlay"></div>
+    <div class="container hero__content">
+      <h1>Professional Rubbish Removal You Can Trust</h1>
+      <p>
+        From house clearances to garden waste, Rubbish Removal Team serves homes and
+        businesses across the West Midlands and Greater Manchester with reliable,
+        responsible waste disposal.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__intro">
+        <h2>What We Do</h2>
+        <p>
+          Rubbish Removal Team handles the heavy lifting so you do not have to. Our
+          experienced crews collect unwanted items, load them safely, and ensure
+          everything is disposed of responsibly — with as much recycled or donated as
+          possible.
+        </p>
+      </div>
+      <ul class="services-list">
+        <li>House and flat clearances</li>
+        <li>Garden and green waste removal</li>
+        <li>Office and commercial waste clearance</li>
+        <li>Garage, loft, and shed clear-outs</li>
+        <li>Construction and renovation debris</li>
+        <li>General junk and bulky item collection</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__intro">
+        <h2>Service Areas</h2>
+        <p>
+          We operate across two key regions. Select your area below to learn more about
+          rubbish removal services near you.
+        </p>
+      </div>
+
+      {
+        regions.map((region) => (
+          <>
+            <h3 class="region-heading">{region}</h3>
+            <div class="grid">
+              {getAreasByRegion(region).map((area) => (
+                <a href={`/${area.slug}`} class="area-card">
+                  {area.name}
+                </a>
+              ))}
+            </div>
+          </>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container content-block">
+      <div>
+        <h2>Responsible Disposal</h2>
+        <p>
+          We take environmental responsibility seriously. Wherever possible, materials
+          are sorted for recycling and items in good condition are diverted from
+          landfill. You get a tidy space and peace of mind knowing your waste has been
+          handled properly.
+        </p>
+        <p>
+          Whether you are decluttering a single room or clearing an entire property,
+          Rubbish Removal Team delivers a straightforward, professional service without
+          the hassle.
+        </p>
+      </div>
+      <div>
+        <img
+          src={stockImages[2].url}
+          alt={stockImages[2].alt}
+          width="600"
+          height="400"
+          loading="lazy"
+        />
+        <p class="image-credit">Photo: {stockImages[2].credit}</p>
+      </div>
+    </div>
+  </section>
+</Layout>
