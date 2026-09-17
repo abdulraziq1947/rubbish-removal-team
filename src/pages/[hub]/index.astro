@@ -3,9 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ServicesList from '../../components/ServicesList.astro';
+import MapEmbed from '../../components/MapEmbed.astro';
+import FaqList from '../../components/FaqList.astro';
 import { locations, getHub, imageForIndex } from '../../data/locations';
 import { SITE } from '../../data/site';
 import { buildHubGraph } from '../../lib/schema';
+import { hubFaqs, hubKeywords } from '../../data/seo';
+import { directionsLink, placeEmbed } from '../../data/maps';
 
 export function getStaticPaths() {
   return locations.map((hub) => ({
@@ -20,46 +24,48 @@ if (!hub) {
   return Astro.redirect('/');
 }
 
+const nearby = hub.subAreas.map((s) => s.name).join(', ');
+const faqs = hubFaqs(hub.name, hub.phoneDisplay, nearby);
 const image = imageForIndex(locations.findIndex((l) => l.slug === hub.slug));
-const schema = buildHubGraph(hub);
-const title = `Rubbish Removal ${hub.name} | ${SITE.name}`;
-const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, garden waste, bulky items, and junk removal. Serving ${hub.subAreas.map((s) => s.name).join(', ')}.`;
+const schema = buildHubGraph(hub, faqs);
+const title = `Rubbish Removal ${hub.name} | House Clearance & Junk Removal`;
+const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, garden waste, bulky items, and junk removal. Serving ${nearby}.`;
 ---
 
-<Layout title={title} description={description} schema={schema}>
-  <section class="hero hero--compact">
-    <img class="hero__image" src={image.url} alt={image.alt} width="1400" height="800" loading="eager" />
+<Layout title={title} description={description} schema={schema} keywords={hubKeywords(hub.name)}>
+  <section class="hero hero--page">
+    <img class="hero__image" src={image.url} alt={image.alt} width="1600" height="900" loading="eager" />
     <div class="hero__overlay"></div>
-    <div class="container hero__content">
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="container hero__page-copy">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },
           { label: hub.name },
         ]}
       />
-      <p class="brand-mark">{SITE.name}</p>
+      <p class="eyebrow">Location hub · {hub.region}</p>
       <h1>Rubbish Removal {hub.name}</h1>
       <p class="hero__lead">
-        Local rubbish removal and house clearance covering {hub.name} and {hub.catchmentNote.toLowerCase()}.
+        Local waste clearance covering {hub.name}: {hub.catchmentNote}.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--overlap">
     <div class="container split">
-      <div>
+      <div class="copy-stack">
+        <p class="eyebrow">Local crew</p>
         <h2>Waste clearance in {hub.name}</h2>
         <p>
-          Need rubbish removed in {hub.name}? {SITE.name} provides dependable junk removal for
-          homes, landlords, and businesses across {hub.region}. We collect furniture, appliances,
-          garden waste, renovation debris, and general clutter — then dispose of it through licensed
-          channels with recycling prioritised.
+          Need rubbish removed in {hub.name}? {SITE.name} provides junk removal for homes,
+          landlords, and businesses across {hub.region}. Furniture, appliances, garden waste,
+          renovation debris, and general clutter — loaded and taken through licensed channels with
+          recycling first.
         </p>
         <p>
-          Our {hub.name} team covers the main town plus nearby areas including{' '}
-          {hub.subAreas.map((s) => s.name).join(', ')}. Whether you are decluttering one room or
-          clearing an entire property, we handle loading and disposal so you do not have to hire a
-          skip or make tip runs.
+          The {hub.name} team covers the town plus {nearby}. One room or a full property: no skip
+          hire, no tip run. Call {hub.phoneDisplay} to book the local crew.
         </p>
         {hub.streetAddress && (
           <p class="address-line">
@@ -72,26 +78,50 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--cream">
     <div class="container">
-      <h2>Rubbish removal services in {hub.name}</h2>
-      <ServicesList placeName={hub.name} />
+      <div class="section-head">
+        <p class="eyebrow">Find us</p>
+        <h2>{hub.name} on Google Maps</h2>
+        <p>
+          Interactive map of Rubbish Removal Team {hub.name}.{' '}
+          <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Open the Google listing</a>
+          {' '}or{' '}
+          <a href={directionsLink(hub)} target="_blank" rel="noopener noreferrer">get driving directions</a>.
+        </p>
+      </div>
+      <MapEmbed
+        src={placeEmbed(hub)}
+        title={`Rubbish Removal Team ${hub.name} on Google Maps`}
+        label={`Show ${hub.name} on Google Maps`}
+      />
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="section__intro">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Rubbish removal in {hub.name}</h2>
+      </div>
+      <ServicesList placeName={hub.name} />
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Catchment</p>
         <h2>Areas we cover near {hub.name}</h2>
         <p>
-          Looking for rubbish removal in a specific neighbourhood? These catchment pages target
-          local search for junk removal and house clearance around {hub.name}.
+          Neighbourhood pages for junk removal and house clearance around {hub.name}.
         </p>
       </div>
-      <div class="sub-grid">
+      <div class="pin-grid">
         {
           hub.subAreas.map((sub) => (
-            <a class="sub-card" href={`/${hub.slug}/${sub.slug}`}>
+            <a class="pin-card" href={`/${hub.slug}/${sub.slug}`}>
+              <span class="pin-card__dot" aria-hidden="true"></span>
               <strong>Rubbish Removal {sub.name}</strong>
               <span>Junk removal & house clearance near {hub.name}</span>
             </a>
@@ -101,19 +131,42 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
-      <h2>Why choose {SITE.name} in {hub.name}</h2>
-      <ul class="feature-list">
-        <li>Local phone line for the {hub.name} team</li>
-        <li>Google Business Profile for this location</li>
-        <li>House, garden, office, and bulky waste clearance</li>
-        <li>Responsible recycling and licensed disposal</li>
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Rubbish removal {hub.name} FAQs</h2>
+      </div>
+      <FaqList items={faqs} />
+    </div>
+  </section>
+
+  <section class="section section--ink">
+    <div class="container">
+      <div class="section-head section-head--light">
+        <p class="eyebrow">Why this hub</p>
+        <h2>Why choose {SITE.name} in {hub.name}</h2>
+      </div>
+      <ul class="reason-grid">
+        <li>
+          <h3>Local phone line</h3>
+          <p>Direct to the {hub.name} team — not a national call centre.</p>
+        </li>
+        <li>
+          <h3>Google Business Profile</h3>
+          <p>
+            <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Open the {hub.name} Maps listing</a>
+          </p>
+        </li>
+        <li>
+          <h3>Full clearance range</h3>
+          <p>House, garden, office, bulky items, and renovation waste.</p>
+        </li>
+        <li>
+          <h3>Licensed disposal</h3>
+          <p>Recycling-first sorting before residual waste leaves site.</p>
+        </li>
       </ul>
-      <p>
-        Call <a href={`tel:+44${hub.phone.slice(1)}`}>{hub.phoneDisplay}</a> or{' '}
-        <a href={hub.gmb} target="_blank" rel="noopener noreferrer">open our {hub.name} Google Maps listing</a>.
-      </p>
     </div>
   </section>
 </Layout>

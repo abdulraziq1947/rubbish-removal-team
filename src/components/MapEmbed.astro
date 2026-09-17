@@ -1,0 +1,33 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  label: string;
+}
+
+const { src, title, label } = Astro.props;
+---
+
+<div class="map-facade" data-map-src={src} data-map-title={title}>
+  <button type="button" data-load-map>
+    <span>{label}</span>
+    <small>Tap to load the interactive Google Map</small>
+  </button>
+</div>
+<script>
+  document.querySelectorAll('[data-load-map]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const wrap = btn.closest('.map-facade');
+      const src = wrap?.getAttribute('data-map-src');
+      const title = wrap?.getAttribute('data-map-title') ?? 'Google Map';
+      if (!src || !wrap) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = title;
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      wrap.replaceChildren(iframe);
+    });
+  });
+</script>

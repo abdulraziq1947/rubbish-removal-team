@@ -42,6 +42,7 @@ function offerCatalog(hub: LocationHub) {
         areaServed: {
           '@type': 'City',
           name: hub.name,
+          sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
         },
       },
     })),
@@ -155,7 +156,11 @@ export function buildLocalBusinessNode(hub: LocationHub) {
       },
     ],
     areaServed: [
-      { '@type': 'City', name: hub.name },
+      {
+        '@type': 'City',
+        name: hub.name,
+        sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
+      },
       ...hub.subAreas.map((sub) => ({
         '@type': 'Place',
         name: sub.name,
@@ -205,6 +210,7 @@ export function buildWebPage(opts: {
   name: string;
   description: string;
   mainEntityId?: string;
+  mentions?: { name: string; sameAs?: string }[];
 }) {
   return {
     '@type': 'WebPage',
@@ -218,6 +224,20 @@ export function buildWebPage(opts: {
       ? { mainEntity: { '@id': opts.mainEntityId } }
       : {}),
     inLanguage: 'en-GB',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.hero__lead', '.faq-answer'],
+    },
+    ...(opts.mentions?.length
+      ? {
+          mentions: opts.mentions.map((m) => ({
+            '@type': 'Place',
+            name: m.name,
+            ...(m.sameAs ? { sameAs: m.sameAs } : {}),
+          })),
+        }
+      : {}),
+    dateModified: new Date().toISOString().slice(0, 10),
   };
 }
 
@@ -247,6 +267,51 @@ export function buildServiceNode(opts: {
   };
 }
 
+export function buildFaqPage(pageUrl: string, faqs: { q: string; a: string }[]) {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${pageUrl}/#faq`,
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  };
+}
+
+export function buildHowTo() {
+  return {
+    '@type': 'HowTo',
+    '@id': `${BASE}/#howto`,
+    name: 'How rubbish removal with Rubbish Removal Team works',
+    description:
+      'Call your local hub, we load the waste, then sort it for recycling before residual waste goes to licensed facilities.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Call your local hub',
+        text: 'Tell the nearest crew what needs to go and where you are in the West Midlands.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'We load everything',
+        text: 'Furniture, garden waste, renovation rubble, and loft clutter are loaded by the crew.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Sorted, not dumped',
+        text: 'Loads are separated for recycling and reuse before residual waste goes to licensed facilities.',
+      },
+    ],
+  };
+}
+
 export function buildHomeGraph() {
   return {
     '@context': 'https://schema.org',
@@ -259,16 +324,24 @@ export function buildHomeGraph() {
         name: `${SITE.name} | Rubbish Removal West Midlands`,
         description: SITE.description,
         mainEntityId: organizationId(),
+        mentions: [
+          { name: 'West Midlands', sameAs: 'https://www.wikidata.org/wiki/Q23124' },
+          ...locations.slice(0, 8).map((hub) => ({
+            name: hub.name,
+            sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
+          })),
+        ],
       }),
-      buildBreadcrumb([
-        { name: 'Home', url: BASE },
-      ]),
-      ...locations.map((hub) => buildLocalBusinessNode(hub)),
+      buildBreadcrumb([{ name: 'Home', url: BASE }]),
+      buildHowTo(),
     ],
   };
 }
 
-export function buildHubGraph(hub: LocationHub) {
+export function buildHubGraph(
+  hub: LocationHub,
+  faqs: { q: string; a: string }[] = [],
+) {
   const url = `${BASE}/${hub.slug}`;
   return {
     '@context': 'https://schema.org',
@@ -282,17 +355,27 @@ export function buildHubGraph(hub: LocationHub) {
         name: `Rubbish Removal ${hub.name} | ${SITE.name}`,
         description: `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, junk removal, and waste collection.`,
         mainEntityId: hubBusinessId(hub),
+        mentions: [
+          { name: hub.name, sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}` },
+          { name: hub.region },
+          ...hub.subAreas.map((sub) => ({ name: sub.name })),
+        ],
       }),
       buildBreadcrumb([
         { name: 'Home', url: BASE },
-        { name: hub.name, url },
+        { name: `Rubbish Removal ${hub.name}`, url },
       ]),
       buildServiceNode({ hub, placeName: hub.name, pageUrl: url }),
+      ...(faqs.length ? [buildFaqPage(url, faqs)] : []),
     ],
   };
 }
 
-export function buildSubGraph(hub: LocationHub, sub: SubArea) {
+export function buildSubGraph(
+  hub: LocationHub,
+  sub: SubArea,
+  faqs: { q: string; a: string }[] = [],
+) {
   const url = `${BASE}/${hub.slug}/${sub.slug}`;
   return {
     '@context': 'https://schema.org',
@@ -306,13 +389,29 @@ export function buildSubGraph(hub: LocationHub, sub: SubArea) {
         name: `Rubbish Removal ${sub.name} | ${SITE.name}`,
         description: `Rubbish removal in ${sub.name} near ${hub.name}. Local junk removal and house clearance from ${SITE.name}.`,
         mainEntityId: `${url}/#service`,
+        mentions: [
+          { name: sub.name },
+          { name: hub.name, sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}` },
+        ],
       }),
       buildBreadcrumb([
         { name: 'Home', url: BASE },
         { name: hub.name, url: `${BASE}/${hub.slug}` },
-        { name: sub.name, url },
+        { name: `Rubbish Removal ${sub.name}`, url },
       ]),
       buildServiceNode({ hub, placeName: sub.name, pageUrl: url }),
+      {
+        '@type': 'Place',
+        '@id': `${url}/#place`,
+        name: sub.name,
+        description: `Rubbish removal catchment covering ${sub.name}, served from Rubbish Removal Team ${hub.name}.`,
+        containedInPlace: {
+          '@type': 'City',
+          name: hub.name,
+          sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
+        },
+      },
+      ...(faqs.length ? [buildFaqPage(url, faqs)] : []),
     ],
   };
 }

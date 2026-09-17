@@ -6,24 +6,31 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
+  <div class="footer-stripe" aria-hidden="true"></div>
   <div class="container footer-grid">
-    <div>
-      <img src="/logo.png" alt="" class="footer-logo" width="200" height="32" />
-      <p class="footer-brand">{SITE.name}</p>
-      <p>Professional rubbish removal and house clearance across the West Midlands.</p>
+    <div class="footer-brand-block">
+      <img src="/logo.png" alt="" class="footer-logo" width="320" height="56" />
+      <p class="footer-lede">
+        {SITE.name} clears homes, gardens, and commercial units across the West Midlands — then
+        sorts loads for recycling before residual waste goes to licensed facilities.
+      </p>
     </div>
     <div>
-      <h2 class="footer-heading">Locations</h2>
+      <h2 class="footer-heading">Location hubs</h2>
       <ul class="footer-links">
         {locations.map((hub) => (
           <li>
-            <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a>
+            <a href={`/${hub.slug}`}>
+              <span>Rubbish Removal</span>
+              {hub.name}
+            </a>
           </li>
         ))}
       </ul>
     </div>
   </div>
   <div class="container footer-bottom">
-    <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+    <p>&copy; {year} {SITE.name}</p>
+    <p>House clearance · Junk removal · Garden waste · Commercial clearance</p>
   </div>
 </footer>

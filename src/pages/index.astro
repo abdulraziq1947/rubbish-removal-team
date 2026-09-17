@@ -12,33 +12,75 @@ const schema = buildHomeGraph();
   title={`${SITE.name} | Rubbish Removal Across the West Midlands`}
   description={SITE.description}
   schema={schema}
+  keywords={[
+    'rubbish removal West Midlands',
+    'house clearance Birmingham',
+    'junk removal Wolverhampton',
+    'waste collection Coventry',
+  ]}
 >
   <section class="hero">
-    <img class="hero__image" src={hero.url} alt={hero.alt} width="1400" height="900" loading="eager" />
+    <img class="hero__image" src={hero.url} alt={hero.alt} width="1600" height="1000" loading="eager" />
     <div class="hero__overlay"></div>
-    <div class="container hero__content">
-      <p class="brand-mark">{SITE.name}</p>
-      <h1>Rubbish removal across the West Midlands</h1>
-      <p class="hero__lead">
-        Local teams for house clearance, garden waste, bulky items, and commercial junk removal —
-        with responsible recycling wherever possible.
-      </p>
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow">West Midlands rubbish removal</p>
+        <h1>
+          Clear the load.
+          <span>Keep the space.</span>
+        </h1>
+        <p class="hero__lead">
+          Local crews for house clearance, garden waste, bulky items, and commercial junk —
+          sorted for recycling, not dumped and forgotten.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--hivis" href="#locations">Find your local crew</a>
+          <a class="btn btn--ghost" href="#how">See how it works</a>
+        </div>
+      </div>
+      <ul class="hero__stats">
+        <li>
+          <strong>12</strong>
+          <span>Location hubs with their own Google listing</span>
+        </li>
+        <li>
+          <strong>7–7</strong>
+          <span>Weekday crews, weekend collections available</span>
+        </li>
+        <li>
+          <strong>Sort</strong>
+          <span>Recycling-first disposal through licensed sites</span>
+        </li>
+      </ul>
     </div>
   </section>
 
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {
+        [...locations, ...locations].map((hub) => (
+          <span>Rubbish Removal {hub.name}</span>
+        ))
+      }
+    </div>
+  </div>
+
   <section class="section" id="services">
     <div class="container">
-      <div class="section__intro">
-        <h2>What we clear</h2>
+      <div class="section-head">
+        <p class="eyebrow">What we take</p>
+        <h2>From a single sofa to a full house clearance</h2>
         <p>
-          From a single sofa to a full property clearance, Rubbish Removal Team collects unwanted
-          items and disposes of them properly so you can reclaim your space.
+          No skip on the drive. No tip runs. We load it, sort it, and leave the space ready to use
+          again.
         </p>
       </div>
-      <div class="service-grid">
+      <div class="bento">
         {
-          SITE.services.map((service) => (
-            <article class="service-item">
+          SITE.services.map((service, i) => (
+            <article class:list={['bento-card', i === 0 && 'bento-card--wide']}>
+              <span class="bento-card__index">{String(i + 1).padStart(2, '0')}</span>
               <h3>{service.name}</h3>
               <p>{service.description}</p>
             </article>
@@ -48,33 +90,63 @@ const schema = buildHomeGraph();
     </div>
   </section>
 
-  <section class="section section--alt" id="locations">
+  <section class="section section--ink" id="how">
     <div class="container">
-      <div class="section__intro">
-        <h2>Location hubs</h2>
+      <div class="section-head section-head--light">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps. Then it is gone.</h2>
+      </div>
+      <ol class="steps">
+        <li>
+          <span>01</span>
+          <h3>Call your local hub</h3>
+          <p>Tell us what needs to go and where you are. We confirm timing with the nearest crew.</p>
+        </li>
+        <li>
+          <span>02</span>
+          <h3>We load everything</h3>
+          <p>Furniture, garden waste, renovation rubble, loft clutter — we do the heavy lifting.</p>
+        </li>
+        <li>
+          <span>03</span>
+          <h3>Sorted, not dumped</h3>
+          <p>Loads are separated for recycling and reuse before residual waste goes to licensed facilities.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="locations">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Coverage</p>
+        <h2>Twelve hubs. One brand. Local numbers.</h2>
         <p>
-          Twelve local teams covering the West Midlands and nearby towns. Choose your area for
-          local phone numbers, Google Maps listings, and nearby catchment pages.
+          Pick your town for the crew that covers it — with catchment pages for nearby
+          neighbourhoods.
         </p>
       </div>
       <div class="hub-grid">
         {
           locations.map((hub, i) => {
-            const img = imageForIndex(i + 1);
+            const img = imageForIndex(i);
             return (
               <article class="hub-card">
-                <a href={`/${hub.slug}`} class="hub-card__link">
-                  <img src={img.url} alt="" width="600" height="360" loading="lazy" />
-                  <div class="hub-card__body">
-                    <h3>Rubbish Removal {hub.name}</h3>
-                    <p>{hub.catchmentNote}</p>
-                    <span class="hub-card__phone">{hub.phoneDisplay}</span>
-                  </div>
+                <a href={`/${hub.slug}`} class="hub-card__media">
+                  <img src={img.url} alt="" width="640" height="400" loading="lazy" />
+                  <span class="hub-card__tag">{String(i + 1).padStart(2, '0')}</span>
                 </a>
-                <div class="hub-card__actions">
-                  <a href={telHref(hub.phone)}>Call</a>
-                  <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Maps</a>
-                  <a href={`/${hub.slug}`}>Area page</a>
+                <div class="hub-card__body">
+                  <h3>
+                    <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a>
+                  </h3>
+                  <p>{hub.catchmentNote}</p>
+                  <p class="hub-card__phone">{hub.phoneDisplay}</p>
+                  <div class="hub-card__actions">
+                    <a href={telHref(hub.phone)}>Call</a>
+                    <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Maps</a>
+                    <a href={`/${hub.slug}`}>Area page</a>
+                  </div>
                 </div>
               </article>
             );
@@ -84,29 +156,31 @@ const schema = buildHomeGraph();
     </div>
   </section>
 
-  <section class="section">
-    <div class="container split">
-      <div>
-        <h2>Responsible disposal</h2>
+  <section class="section section--cream">
+    <div class="container split split--offset">
+      <div class="copy-stack">
+        <p class="eyebrow">Responsible disposal</p>
+        <h2>We take the mess. We do not leave it for someone else.</h2>
         <p>
-          We sort loads for recycling and reuse before residual waste goes to licensed facilities.
-          That means less landfill and a cleaner finish for homes and businesses across Birmingham,
-          the Black Country, Coventry, and surrounding towns.
+          Rubbish Removal Team sorts loads for recycling and reuse before anything reaches residual
+          waste. Homes and businesses across Birmingham, the Black Country, Coventry, and nearby
+          towns get a clean finish — and a clearer conscience.
         </p>
         <p>
-          Every hub page lists nearby catchment areas so you can find rubbish removal keywords for
-          your exact neighbourhood — then call the local number for that team.
+          Every hub lists nearby catchment areas, so you can find rubbish removal for your exact
+          neighbourhood, then call the local number for that team.
         </p>
       </div>
-      <div>
+      <figure class="photo-frame">
         <img
           src={imageForIndex(2).url}
           alt={imageForIndex(2).alt}
-          width="700"
-          height="460"
+          width="800"
+          height="560"
           loading="lazy"
         />
-      </div>
+        <figcaption>Recycling-first clearance across the West Midlands</figcaption>
+      </figure>
     </div>
   </section>
 </Layout>

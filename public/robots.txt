@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://rubbishremovalteam.co.uk/sitemap-index.xml
+

@@ -4,12 +4,14 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { SITE } from '../data/site';
+import { metaKeywords, trimDescription } from '../data/seo';
 
 interface Props {
   title: string;
   description?: string;
   schema?: Record<string, unknown>;
   ogImage?: string;
+  keywords?: string[];
 }
 
 const {
@@ -17,9 +19,12 @@ const {
   description = SITE.description,
   schema,
   ogImage = `${SITE.domain}${SITE.logo}`,
+  keywords = [],
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', SITE.domain);
+const metaDescription = trimDescription(description);
+const keywordsContent = metaKeywords(canonicalURL.pathname, keywords);
 ---
 
 <!doctype html>
@@ -27,25 +32,34 @@ const canonicalURL = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', SITE.
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="description" content={metaDescription} />
+    <meta name="keywords" content={keywordsContent} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonicalURL.href} />
+    <meta name="theme-color" content="#0c1511" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content={SITE.name} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={metaDescription} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {schema && <JsonLd schema={schema} />}
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main">
       <slot />

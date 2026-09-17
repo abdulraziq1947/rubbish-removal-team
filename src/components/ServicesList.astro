@@ -6,14 +6,38 @@ interface Props {
 }
 
 const { placeName } = Astro.props;
+
+const icons: Record<string, string> = {
+  'house-clearance':
+    'M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z',
+  'garden-waste':
+    'M12 21c-4 0-7-3.2-7-8 2.5 0 4.2-1 5.4-2.4C9.2 14 10.8 16 12 16s2.8-2 1.6-5.4C14.8 12 16.5 13 19 13c0 4.8-3 8-7 8Zm0-9.5C13.8 8.2 15 5.8 15 4c-3 .8-4.5 3.2-5 5.8C9.2 7.2 7.6 5.5 5 5c.4 2.6 2 5 4.2 6.8.8.1 1.8.1 2.8-.3Z',
+  'office-clearance':
+    'M4 20V7a1 1 0 0 1 1-1h6v14H4Zm10 0V4a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v16h-7ZM7 9h2v2H7V9Zm0 4h2v2H7v-2Zm10-7h2v2h-2V6Zm0 4h2v2h-2v-2Zm0 4h2v2h-2v-2Z',
+  'bulky-items':
+    'M3 10h18v2.2l-1.2 6.3A2 2 0 0 1 17.84 20H6.16a2 2 0 0 1-1.96-1.5L3 12.2V10Zm2-3.5L7.2 4h9.6L19 6.5H5Z',
+  'construction-waste':
+    'M3 20h18v-2l-4-3-3 2-4-5-7 6v2Zm13.5-11.5A2.5 2.5 0 1 0 19 6a2.5 2.5 0 0 0-2.5 2.5Z',
+  'garage-loft':
+    'M3 10.2 12 3l9 7.2V21H3V10.2ZM8 21v-7h8v7',
+};
 ---
 
-<ul class="services-list">
+<ul class="service-tiles">
   {
     SITE.services.map((service) => (
-      <li>
-        <strong>{service.name} in {placeName}</strong>
-        <span>{service.description}</span>
+      <li class="service-tile">
+        <span class="service-tile__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d={icons[service.slug] ?? icons['house-clearance']} />
+          </svg>
+        </span>
+        <div>
+          <h3>
+            {service.name} in {placeName}
+          </h3>
+          <p>{service.description}</p>
+        </div>
       </li>
     ))
   }

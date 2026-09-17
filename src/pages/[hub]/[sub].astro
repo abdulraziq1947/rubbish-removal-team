@@ -3,9 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ServicesList from '../../components/ServicesList.astro';
+import MapEmbed from '../../components/MapEmbed.astro';
+import FaqList from '../../components/FaqList.astro';
 import { locations, getSubArea, imageForIndex } from '../../data/locations';
 import { SITE } from '../../data/site';
 import { buildSubGraph } from '../../lib/schema';
+import { hubFaqs, hubKeywords } from '../../data/seo';
+import { directionsEmbed, directionsLink } from '../../data/maps';
 
 export function getStaticPaths() {
   return locations.flatMap((hub) =>
@@ -23,17 +27,25 @@ if (!match) {
 }
 
 const { hub, sub } = match;
+const nearbyNames = hub.subAreas.filter((s) => s.slug !== sub.slug).map((s) => s.name).join(', ');
+const faqs = hubFaqs(sub.name, hub.phoneDisplay, `${hub.name}, ${nearbyNames}`);
 const image = imageForIndex(hub.subAreas.findIndex((s) => s.slug === sub.slug) + 1);
-const schema = buildSubGraph(hub, sub);
-const title = `Rubbish Removal ${sub.name} | ${SITE.name}`;
+const schema = buildSubGraph(hub, sub, faqs);
+const title = `Rubbish Removal ${sub.name} | House Clearance near ${hub.name}`;
 const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub.phoneDisplay} for junk removal, house clearance, and garden waste collection from ${SITE.name}.`;
 ---
 
-<Layout title={title} description={description} schema={schema}>
-  <section class="hero hero--compact">
-    <img class="hero__image" src={image.url} alt={image.alt} width="1400" height="800" loading="eager" />
+<Layout
+  title={title}
+  description={description}
+  schema={schema}
+  keywords={hubKeywords(sub.name, hub.name)}
+>
+  <section class="hero hero--page">
+    <img class="hero__image" src={image.url} alt={image.alt} width="1600" height="900" loading="eager" />
     <div class="hero__overlay"></div>
-    <div class="container hero__content">
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="container hero__page-copy">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },
@@ -41,59 +53,93 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
           { label: sub.name },
         ]}
       />
-      <p class="brand-mark">{SITE.name}</p>
+      <p class="eyebrow">Served from {hub.name}</p>
       <h1>Rubbish Removal {sub.name}</h1>
       <p class="hero__lead">
-        Local junk removal and waste clearance in {sub.name}, covered by our {hub.name} team.
+        Junk removal and waste clearance in {sub.name}, covered by our {hub.name} crew.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--overlap">
     <div class="container split">
-      <div>
+      <div class="copy-stack">
+        <p class="eyebrow">Catchment area</p>
         <h2>Need rubbish removed in {sub.name}?</h2>
         <p>
-          {SITE.name} provides rubbish removal in {sub.name} as part of our {hub.name} service
-          area. We collect household junk, furniture, appliances, garden waste, and commercial
-          clutter from homes and workplaces throughout {sub.name} and the wider {hub.name} catchment.
+          {SITE.name} provides rubbish removal in {sub.name} as part of the {hub.name} service
+          area. Household junk, furniture, appliances, garden waste, and commercial clutter collected
+          from homes and workplaces throughout {sub.name}.
         </p>
         <p>
-          Searching for <strong>rubbish removal {sub.name}</strong>,{' '}
-          <strong>house clearance {sub.name}</strong>, or{' '}
-          <strong>junk removal near {sub.name}</strong>? Call the {hub.name} number below and we
-          will arrange collection with responsible disposal and recycling where possible.
+          Searching for rubbish removal {sub.name}, house clearance {sub.name}, or junk removal
+          near {sub.name}? Call {hub.phoneDisplay} and the {hub.name} crew will arrange collection
+          with recycling-first disposal.
         </p>
         <p>
-          This area is served from our{' '}
-          <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a> hub, which also covers{' '}
-          {hub.subAreas
-            .filter((s) => s.slug !== sub.slug)
-            .map((s) => s.name)
-            .join(', ')}.
+          This neighbourhood is served from our{' '}
+          <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a> hub, which also covers {nearbyNames}.
         </p>
       </div>
       <ContactBlock hub={hub} placeName={sub.name} />
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--cream">
     <div class="container">
-      <h2>Services available in {sub.name}</h2>
-      <ServicesList placeName={sub.name} />
+      <div class="section-head">
+        <p class="eyebrow">Route</p>
+        <h2>Driving directions from {sub.name}</h2>
+        <p>
+          Route from {sub.name} to the {hub.name} crew.{' '}
+          <a href={directionsLink(hub, sub)} target="_blank" rel="noopener noreferrer">
+            Open directions in Google Maps
+          </a>.
+        </p>
+      </div>
+      <MapEmbed
+        src={directionsEmbed(hub, sub)}
+        title={`Driving directions from ${sub.name} to Rubbish Removal Team ${hub.name}`}
+        label={`Show driving route from ${sub.name}`}
+      />
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2>More areas near {hub.name}</h2>
-      <div class="nearby-links">
-        <a href={`/${hub.slug}`}>All {hub.name} coverage</a>
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Available in {sub.name}</h2>
+      </div>
+      <ServicesList placeName={sub.name} />
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Rubbish removal {sub.name} FAQs</h2>
+      </div>
+      <FaqList items={faqs} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Nearby</p>
+        <h2>More areas near {hub.name}</h2>
+      </div>
+      <div class="chip-row">
+        <a class="chip chip--solid" href={`/${hub.slug}`}>All {hub.name} coverage</a>
         {
           hub.subAreas
             .filter((s) => s.slug !== sub.slug)
             .map((nearby) => (
-              <a href={`/${hub.slug}/${nearby.slug}`}>Rubbish Removal {nearby.name}</a>
+              <a class="chip" href={`/${hub.slug}/${nearby.slug}`}>
+                Rubbish Removal {nearby.name}
+              </a>
             ))
         }
       </div>

@@ -9,20 +9,24 @@ interface Props {
 const { hub, placeName = hub.name } = Astro.props;
 ---
 
-<aside class="contact-block" aria-labelledby="contact-heading">
+<aside class="contact-card" aria-labelledby="contact-heading">
+  <p class="contact-card__kicker">Local {hub.name} crew</p>
   <h2 id="contact-heading">Book rubbish removal in {placeName}</h2>
   <p>
-    Speak to the {hub.name} team for house clearances, garden waste, bulky items, and commercial junk removal.
+    House clearances, garden waste, bulky items, and commercial junk — loaded and taken the same
+    day where possible.
   </p>
-  <div class="contact-actions">
-    <a class="btn btn--primary" href={telHref(hub.phone)}>
-      Call {hub.phoneDisplay}
-    </a>
-    <a class="btn btn--ghost" href={hub.gmb} target="_blank" rel="noopener noreferrer">
-      View on Google Maps
-    </a>
-  </div>
-  <p class="contact-meta">
-    Open Mon–Fri 7am–7pm · Sat 8am–5pm · Sun 9am–4pm
-  </p>
+  <a class="btn btn--hivis" href={telHref(hub.phone)}>
+    Call {hub.phoneDisplay}
+  </a>
+  <a class="btn btn--ghost" href={hub.gmb} target="_blank" rel="noopener noreferrer">
+    Open Google Maps listing
+  </a>
+  <dl class="contact-meta">
+    <div>
+      <dt>Hours</dt>
+      <dd>Mon–Fri 7am–7pm</dd>
+      <dd>Sat 8am–5pm · Sun 9am–4pm</dd>
+    </div>
+  </dl>
 </aside>

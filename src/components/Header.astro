@@ -2,22 +2,47 @@
 import { locations } from '../data/locations';
 ---
 
+<div class="topbar">
+  <div class="container topbar-inner">
+    <p>Licensed waste carriers · Local crews across the West Midlands</p>
+    <a href="/#locations">12 location hubs</a>
+  </div>
+</div>
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo-link" aria-label="Rubbish Removal Team – Home">
-      <img src="/logo.png" alt="Rubbish Removal Team" class="logo" width="260" height="40" />
+      <img src="/logo.png" alt="Rubbish Removal Team" class="logo" width="420" height="72" />
     </a>
-    <nav class="nav" aria-label="Primary">
+
+    <nav class="nav-desktop" aria-label="Primary">
       <a href="/#services">Services</a>
-      <a href="/#locations">Locations</a>
-      <details class="nav-locations">
+      <a href="/#how">How it works</a>
+      <a href="/#locations">Coverage</a>
+      <details class="nav-areas">
         <summary>Areas</summary>
-        <div class="nav-dropdown">
+        <div class="nav-panel nav-panel--light">
           {locations.map((hub) => (
             <a href={`/${hub.slug}`}>{hub.name}</a>
           ))}
         </div>
       </details>
     </nav>
+
+    <details class="nav-menu">
+      <summary>
+        <span class="sr-only">Open menu</span>
+        <span class="menu-bars" aria-hidden="true"></span>
+      </summary>
+      <div class="nav-panel">
+        <a href="/#services">Services</a>
+        <a href="/#how">How it works</a>
+        <a href="/#locations">Coverage</a>
+        <p class="nav-panel__label">Location hubs</p>
+        {locations.map((hub) => (
+          <a href={`/${hub.slug}`}>{hub.name}</a>
+        ))}
+      </div>
+    </details>
   </div>
 </header>
