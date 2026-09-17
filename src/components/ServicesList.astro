@@ -1,0 +1,20 @@
+---
+import { SITE } from '../data/site';
+
+interface Props {
+  placeName: string;
+}
+
+const { placeName } = Astro.props;
+---
+
+<ul class="services-list">
+  {
+    SITE.services.map((service) => (
+      <li>
+        <strong>{service.name} in {placeName}</strong>
+        <span>{service.description}</span>
+      </li>
+    ))
+  }
+</ul>

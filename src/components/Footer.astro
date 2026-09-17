@@ -1,9 +1,29 @@
 ---
+import { locations } from '../data/locations';
+import { SITE } from '../data/site';
+
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="container">
-    <p>&copy; {year} Rubbish Removal Team. All rights reserved.</p>
+  <div class="container footer-grid">
+    <div>
+      <img src="/logo.png" alt="" class="footer-logo" width="200" height="32" />
+      <p class="footer-brand">{SITE.name}</p>
+      <p>Professional rubbish removal and house clearance across the West Midlands.</p>
+    </div>
+    <div>
+      <h2 class="footer-heading">Locations</h2>
+      <ul class="footer-links">
+        {locations.map((hub) => (
+          <li>
+            <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; {year} {SITE.name}. All rights reserved.</p>
   </div>
 </footer>

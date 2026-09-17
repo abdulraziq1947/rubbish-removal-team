@@ -1,108 +1,111 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { regions, getAreasByRegion, stockImages } from '../data/serviceAreas';
+import { locations, imageForIndex, telHref } from '../data/locations';
+import { SITE } from '../data/site';
+import { buildHomeGraph } from '../lib/schema';
 
-const heroImage = stockImages[0];
+const hero = imageForIndex(0);
+const schema = buildHomeGraph();
 ---
 
 <Layout
-  title="Rubbish Removal Team | Waste Clearance Across the Midlands & Manchester"
-  description="Rubbish Removal Team provides professional waste clearance, house clearance, and junk removal across the West Midlands and Greater Manchester."
+  title={`${SITE.name} | Rubbish Removal Across the West Midlands`}
+  description={SITE.description}
+  schema={schema}
 >
   <section class="hero">
-    <img
-      class="hero__image"
-      src={heroImage.url}
-      alt={heroImage.alt}
-      width="1200"
-      height="800"
-      loading="eager"
-    />
+    <img class="hero__image" src={hero.url} alt={hero.alt} width="1400" height="900" loading="eager" />
     <div class="hero__overlay"></div>
     <div class="container hero__content">
-      <h1>Professional Rubbish Removal You Can Trust</h1>
-      <p>
-        From house clearances to garden waste, Rubbish Removal Team serves homes and
-        businesses across the West Midlands and Greater Manchester with reliable,
-        responsible waste disposal.
+      <p class="brand-mark">{SITE.name}</p>
+      <h1>Rubbish removal across the West Midlands</h1>
+      <p class="hero__lead">
+        Local teams for house clearance, garden waste, bulky items, and commercial junk removal —
+        with responsible recycling wherever possible.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="services">
     <div class="container">
       <div class="section__intro">
-        <h2>What We Do</h2>
+        <h2>What we clear</h2>
         <p>
-          Rubbish Removal Team handles the heavy lifting so you do not have to. Our
-          experienced crews collect unwanted items, load them safely, and ensure
-          everything is disposed of responsibly — with as much recycled or donated as
-          possible.
+          From a single sofa to a full property clearance, Rubbish Removal Team collects unwanted
+          items and disposes of them properly so you can reclaim your space.
         </p>
       </div>
-      <ul class="services-list">
-        <li>House and flat clearances</li>
-        <li>Garden and green waste removal</li>
-        <li>Office and commercial waste clearance</li>
-        <li>Garage, loft, and shed clear-outs</li>
-        <li>Construction and renovation debris</li>
-        <li>General junk and bulky item collection</li>
-      </ul>
+      <div class="service-grid">
+        {
+          SITE.services.map((service) => (
+            <article class="service-item">
+              <h3>{service.name}</h3>
+              <p>{service.description}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--alt" id="locations">
     <div class="container">
       <div class="section__intro">
-        <h2>Service Areas</h2>
+        <h2>Location hubs</h2>
         <p>
-          We operate across two key regions. Select your area below to learn more about
-          rubbish removal services near you.
+          Twelve local teams covering the West Midlands and nearby towns. Choose your area for
+          local phone numbers, Google Maps listings, and nearby catchment pages.
         </p>
       </div>
-
-      {
-        regions.map((region) => (
-          <>
-            <h3 class="region-heading">{region}</h3>
-            <div class="grid">
-              {getAreasByRegion(region).map((area) => (
-                <a href={`/${area.slug}`} class="area-card">
-                  {area.name}
+      <div class="hub-grid">
+        {
+          locations.map((hub, i) => {
+            const img = imageForIndex(i + 1);
+            return (
+              <article class="hub-card">
+                <a href={`/${hub.slug}`} class="hub-card__link">
+                  <img src={img.url} alt="" width="600" height="360" loading="lazy" />
+                  <div class="hub-card__body">
+                    <h3>Rubbish Removal {hub.name}</h3>
+                    <p>{hub.catchmentNote}</p>
+                    <span class="hub-card__phone">{hub.phoneDisplay}</span>
+                  </div>
                 </a>
-              ))}
-            </div>
-          </>
-        ))
-      }
+                <div class="hub-card__actions">
+                  <a href={telHref(hub.phone)}>Call</a>
+                  <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Maps</a>
+                  <a href={`/${hub.slug}`}>Area page</a>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container content-block">
+    <div class="container split">
       <div>
-        <h2>Responsible Disposal</h2>
+        <h2>Responsible disposal</h2>
         <p>
-          We take environmental responsibility seriously. Wherever possible, materials
-          are sorted for recycling and items in good condition are diverted from
-          landfill. You get a tidy space and peace of mind knowing your waste has been
-          handled properly.
+          We sort loads for recycling and reuse before residual waste goes to licensed facilities.
+          That means less landfill and a cleaner finish for homes and businesses across Birmingham,
+          the Black Country, Coventry, and surrounding towns.
         </p>
         <p>
-          Whether you are decluttering a single room or clearing an entire property,
-          Rubbish Removal Team delivers a straightforward, professional service without
-          the hassle.
+          Every hub page lists nearby catchment areas so you can find rubbish removal keywords for
+          your exact neighbourhood — then call the local number for that team.
         </p>
       </div>
       <div>
         <img
-          src={stockImages[2].url}
-          alt={stockImages[2].alt}
-          width="600"
-          height="400"
+          src={imageForIndex(2).url}
+          alt={imageForIndex(2).alt}
+          width="700"
+          height="460"
           loading="lazy"
         />
-        <p class="image-credit">Photo: {stockImages[2].credit}</p>
       </div>
     </div>
   </section>

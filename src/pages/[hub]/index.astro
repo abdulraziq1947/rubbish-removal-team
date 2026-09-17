@@ -1,0 +1,119 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import ServicesList from '../../components/ServicesList.astro';
+import { locations, getHub, imageForIndex } from '../../data/locations';
+import { SITE } from '../../data/site';
+import { buildHubGraph } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return locations.map((hub) => ({
+    params: { hub: hub.slug },
+  }));
+}
+
+const { hub: hubSlug } = Astro.params;
+const hub = getHub(hubSlug!);
+
+if (!hub) {
+  return Astro.redirect('/');
+}
+
+const image = imageForIndex(locations.findIndex((l) => l.slug === hub.slug));
+const schema = buildHubGraph(hub);
+const title = `Rubbish Removal ${hub.name} | ${SITE.name}`;
+const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, garden waste, bulky items, and junk removal. Serving ${hub.subAreas.map((s) => s.name).join(', ')}.`;
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <section class="hero hero--compact">
+    <img class="hero__image" src={image.url} alt={image.alt} width="1400" height="800" loading="eager" />
+    <div class="hero__overlay"></div>
+    <div class="container hero__content">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: hub.name },
+        ]}
+      />
+      <p class="brand-mark">{SITE.name}</p>
+      <h1>Rubbish Removal {hub.name}</h1>
+      <p class="hero__lead">
+        Local rubbish removal and house clearance covering {hub.name} and {hub.catchmentNote.toLowerCase()}.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>Waste clearance in {hub.name}</h2>
+        <p>
+          Need rubbish removed in {hub.name}? {SITE.name} provides dependable junk removal for
+          homes, landlords, and businesses across {hub.region}. We collect furniture, appliances,
+          garden waste, renovation debris, and general clutter — then dispose of it through licensed
+          channels with recycling prioritised.
+        </p>
+        <p>
+          Our {hub.name} team covers the main town plus nearby areas including{' '}
+          {hub.subAreas.map((s) => s.name).join(', ')}. Whether you are decluttering one room or
+          clearing an entire property, we handle loading and disposal so you do not have to hire a
+          skip or make tip runs.
+        </p>
+        {hub.streetAddress && (
+          <p class="address-line">
+            Local listing: {hub.streetAddress}
+            {hub.postalCode ? `, ${hub.name} ${hub.postalCode}` : `, ${hub.name}`}
+          </p>
+        )}
+      </div>
+      <ContactBlock hub={hub} />
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2>Rubbish removal services in {hub.name}</h2>
+      <ServicesList placeName={hub.name} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__intro">
+        <h2>Areas we cover near {hub.name}</h2>
+        <p>
+          Looking for rubbish removal in a specific neighbourhood? These catchment pages target
+          local search for junk removal and house clearance around {hub.name}.
+        </p>
+      </div>
+      <div class="sub-grid">
+        {
+          hub.subAreas.map((sub) => (
+            <a class="sub-card" href={`/${hub.slug}/${sub.slug}`}>
+              <strong>Rubbish Removal {sub.name}</strong>
+              <span>Junk removal & house clearance near {hub.name}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2>Why choose {SITE.name} in {hub.name}</h2>
+      <ul class="feature-list">
+        <li>Local phone line for the {hub.name} team</li>
+        <li>Google Business Profile for this location</li>
+        <li>House, garden, office, and bulky waste clearance</li>
+        <li>Responsible recycling and licensed disposal</li>
+      </ul>
+      <p>
+        Call <a href={`tel:+44${hub.phone.slice(1)}`}>{hub.phoneDisplay}</a> or{' '}
+        <a href={hub.gmb} target="_blank" rel="noopener noreferrer">open our {hub.name} Google Maps listing</a>.
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import ServicesList from '../../components/ServicesList.astro';
+import { locations, getSubArea, imageForIndex } from '../../data/locations';
+import { SITE } from '../../data/site';
+import { buildSubGraph } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return locations.flatMap((hub) =>
+    hub.subAreas.map((sub) => ({
+      params: { hub: hub.slug, sub: sub.slug },
+    })),
+  );
+}
+
+const { hub: hubSlug, sub: subSlug } = Astro.params;
+const match = getSubArea(hubSlug!, subSlug!);
+
+if (!match) {
+  return Astro.redirect('/');
+}
+
+const { hub, sub } = match;
+const image = imageForIndex(hub.subAreas.findIndex((s) => s.slug === sub.slug) + 1);
+const schema = buildSubGraph(hub, sub);
+const title = `Rubbish Removal ${sub.name} | ${SITE.name}`;
+const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub.phoneDisplay} for junk removal, house clearance, and garden waste collection from ${SITE.name}.`;
+---
+
+<Layout title={title} description={description} schema={schema}>
+  <section class="hero hero--compact">
+    <img class="hero__image" src={image.url} alt={image.alt} width="1400" height="800" loading="eager" />
+    <div class="hero__overlay"></div>
+    <div class="container hero__content">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: hub.name, href: `/${hub.slug}` },
+          { label: sub.name },
+        ]}
+      />
+      <p class="brand-mark">{SITE.name}</p>
+      <h1>Rubbish Removal {sub.name}</h1>
+      <p class="hero__lead">
+        Local junk removal and waste clearance in {sub.name}, covered by our {hub.name} team.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>Need rubbish removed in {sub.name}?</h2>
+        <p>
+          {SITE.name} provides rubbish removal in {sub.name} as part of our {hub.name} service
+          area. We collect household junk, furniture, appliances, garden waste, and commercial
+          clutter from homes and workplaces throughout {sub.name} and the wider {hub.name} catchment.
+        </p>
+        <p>
+          Searching for <strong>rubbish removal {sub.name}</strong>,{' '}
+          <strong>house clearance {sub.name}</strong>, or{' '}
+          <strong>junk removal near {sub.name}</strong>? Call the {hub.name} number below and we
+          will arrange collection with responsible disposal and recycling where possible.
+        </p>
+        <p>
+          This area is served from our{' '}
+          <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a> hub, which also covers{' '}
+          {hub.subAreas
+            .filter((s) => s.slug !== sub.slug)
+            .map((s) => s.name)
+            .join(', ')}.
+        </p>
+      </div>
+      <ContactBlock hub={hub} placeName={sub.name} />
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2>Services available in {sub.name}</h2>
+      <ServicesList placeName={sub.name} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>More areas near {hub.name}</h2>
+      <div class="nearby-links">
+        <a href={`/${hub.slug}`}>All {hub.name} coverage</a>
+        {
+          hub.subAreas
+            .filter((s) => s.slug !== sub.slug)
+            .map((nearby) => (
+              <a href={`/${hub.slug}/${nearby.slug}`}>Rubbish Removal {nearby.name}</a>
+            ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

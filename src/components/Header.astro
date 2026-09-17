@@ -1,10 +1,23 @@
 ---
+import { locations } from '../data/locations';
 ---
 
 <header class="site-header">
-  <div class="container">
+  <div class="container header-inner">
     <a href="/" class="logo-link" aria-label="Rubbish Removal Team – Home">
-      <img src="/logo.png" alt="Rubbish Removal Team" class="logo" width="280" height="44" />
+      <img src="/logo.png" alt="Rubbish Removal Team" class="logo" width="260" height="40" />
     </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#services">Services</a>
+      <a href="/#locations">Locations</a>
+      <details class="nav-locations">
+        <summary>Areas</summary>
+        <div class="nav-dropdown">
+          {locations.map((hub) => (
+            <a href={`/${hub.slug}`}>{hub.name}</a>
+          ))}
+        </div>
+      </details>
+    </nav>
   </div>
 </header>

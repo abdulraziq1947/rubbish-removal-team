@@ -1,0 +1,28 @@
+---
+import { telHref, type LocationHub } from '../data/locations';
+
+interface Props {
+  hub: LocationHub;
+  placeName?: string;
+}
+
+const { hub, placeName = hub.name } = Astro.props;
+---
+
+<aside class="contact-block" aria-labelledby="contact-heading">
+  <h2 id="contact-heading">Book rubbish removal in {placeName}</h2>
+  <p>
+    Speak to the {hub.name} team for house clearances, garden waste, bulky items, and commercial junk removal.
+  </p>
+  <div class="contact-actions">
+    <a class="btn btn--primary" href={telHref(hub.phone)}>
+      Call {hub.phoneDisplay}
+    </a>
+    <a class="btn btn--ghost" href={hub.gmb} target="_blank" rel="noopener noreferrer">
+      View on Google Maps
+    </a>
+  </div>
+  <p class="contact-meta">
+    Open Mon–Fri 7am–7pm · Sat 8am–5pm · Sun 9am–4pm
+  </p>
+</aside>
