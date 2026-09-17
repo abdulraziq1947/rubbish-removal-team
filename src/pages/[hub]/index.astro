@@ -29,7 +29,7 @@ const faqs = hubFaqs(hub.name, hub.phoneDisplay, nearby);
 const image = imageForIndex(locations.findIndex((l) => l.slug === hub.slug));
 const schema = buildHubGraph(hub, faqs);
 const title = `Rubbish Removal ${hub.name} | House Clearance & Junk Removal`;
-const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, garden waste, bulky items, and junk removal. Serving ${nearby}.`;
+const description = `Rubbish removal in ${hub.name}. House clearance, junk removal, garden waste and bulky collections. Call ${hub.phoneDisplay}. Covering ${nearby}.`;
 ---
 
 <Layout title={title} description={description} schema={schema} keywords={hubKeywords(hub.name)}>
@@ -44,10 +44,11 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
           { label: hub.name },
         ]}
       />
-      <p class="eyebrow">Location hub · {hub.region}</p>
+      <p class="eyebrow">House clearance & junk removal</p>
       <h1>Rubbish Removal {hub.name}</h1>
       <p class="hero__lead">
-        Local waste clearance covering {hub.name}: {hub.catchmentNote}.
+        House clearance, junk removal and waste collection in {hub.name}, covering {nearby}. Call{' '}
+        {hub.phoneDisplay} for same-day rubbish removal where diaries allow.
       </p>
     </div>
   </section>
@@ -55,21 +56,21 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
   <section class="section section--overlap">
     <div class="container split">
       <div class="copy-stack">
-        <p class="eyebrow">Local crew</p>
-        <h2>Waste clearance in {hub.name}</h2>
+        <p class="eyebrow">House clearance {hub.name}</p>
+        <h2>House Clearance in {hub.name}</h2>
         <p>
-          Need rubbish removed in {hub.name}? {SITE.name} provides junk removal for homes,
-          landlords, and businesses across {hub.region}. Furniture, appliances, garden waste,
-          renovation debris, and general clutter — loaded and taken through licensed channels with
-          recycling first.
+          Need rubbish removed in {hub.name}? {SITE.name} provides house clearance, junk removal and
+          waste collection for homes, landlords and businesses across {hub.region}. Furniture,
+          appliances, garden waste, renovation debris and general clutter — loaded and taken through
+          licensed channels with recycling first.
         </p>
         <p>
-          The {hub.name} team covers the town plus {nearby}. One room or a full property: no skip
-          hire, no tip run. Call {hub.phoneDisplay} to book the local crew.
+          Rubbish removal in {hub.name} covers the town plus {nearby}. One room or a full property:
+          no skip hire and no tip run. Call {hub.phoneDisplay} to book collection.
         </p>
         {hub.streetAddress && (
           <p class="address-line">
-            Local listing: {hub.streetAddress}
+            Address: {hub.streetAddress}
             {hub.postalCode ? `, ${hub.name} ${hub.postalCode}` : `, ${hub.name}`}
           </p>
         )}
@@ -81,11 +82,11 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
   <section class="section section--cream">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Find us</p>
-        <h2>{hub.name} on Google Maps</h2>
+        <p class="eyebrow">Map</p>
+        <h2>Rubbish Removal {hub.name} Location</h2>
         <p>
-          Interactive map of Rubbish Removal Team {hub.name}.{' '}
-          <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Open the Google listing</a>
+          Find rubbish removal in {hub.name} on the map.{' '}
+          <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
           {' '}or{' '}
           <a href={directionsLink(hub)} target="_blank" rel="noopener noreferrer">get driving directions</a>.
         </p>
@@ -102,7 +103,7 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Services</p>
-        <h2>Rubbish removal in {hub.name}</h2>
+        <h2>Rubbish Removal Services in {hub.name}</h2>
       </div>
       <ServicesList placeName={hub.name} />
     </div>
@@ -111,10 +112,10 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
   <section class="section section--cream">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Catchment</p>
-        <h2>Areas we cover near {hub.name}</h2>
+        <p class="eyebrow">Nearby areas</p>
+        <h2>Rubbish Removal Near {hub.name}</h2>
         <p>
-          Neighbourhood pages for junk removal and house clearance around {hub.name}.
+          House clearance and junk removal pages for neighbourhoods around {hub.name}.
         </p>
       </div>
       <div class="pin-grid">
@@ -135,7 +136,7 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Questions</p>
-        <h2>Rubbish removal {hub.name} FAQs</h2>
+        <h2>Rubbish Removal {hub.name} FAQs</h2>
       </div>
       <FaqList items={faqs} />
     </div>
@@ -144,27 +145,25 @@ const description = `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} fo
   <section class="section section--ink">
     <div class="container">
       <div class="section-head section-head--light">
-        <p class="eyebrow">Why this hub</p>
-        <h2>Why choose {SITE.name} in {hub.name}</h2>
+        <p class="eyebrow">Why book locally</p>
+        <h2>Why Choose Rubbish Removal in {hub.name}</h2>
       </div>
       <ul class="reason-grid">
         <li>
-          <h3>Local phone line</h3>
-          <p>Direct to the {hub.name} team — not a national call centre.</p>
+          <h3>Local {hub.name} number</h3>
+          <p>Call {hub.phoneDisplay} for rubbish removal in {hub.name} — not a national call centre.</p>
         </li>
         <li>
-          <h3>Google Business Profile</h3>
-          <p>
-            <a href={hub.gmb} target="_blank" rel="noopener noreferrer">Open the {hub.name} Maps listing</a>
-          </p>
+          <h3>Same-day junk removal</h3>
+          <p>House clearance and bulky collections in {hub.name} when the diary allows.</p>
         </li>
         <li>
-          <h3>Full clearance range</h3>
-          <p>House, garden, office, bulky items, and renovation waste.</p>
+          <h3>Full rubbish removal range</h3>
+          <p>House, garden, office, bulky items and renovation waste collection in {hub.name}.</p>
         </li>
         <li>
-          <h3>Licensed disposal</h3>
-          <p>Recycling-first sorting before residual waste leaves site.</p>
+          <h3>Licensed waste collection</h3>
+          <p>Recycling-first sorting before residual waste leaves {hub.name}.</p>
         </li>
       </ul>
     </div>

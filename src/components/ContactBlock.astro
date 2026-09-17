@@ -10,17 +10,17 @@ const { hub, placeName = hub.name } = Astro.props;
 ---
 
 <aside class="contact-card" aria-labelledby="contact-heading">
-  <p class="contact-card__kicker">Local {hub.name} crew</p>
+  <p class="contact-card__kicker">Rubbish removal {placeName}</p>
   <h2 id="contact-heading">Book rubbish removal in {placeName}</h2>
   <p>
-    House clearances, garden waste, bulky items, and commercial junk — loaded and taken the same
-    day where possible.
+    House clearance, junk removal, garden waste and bulky collections in {placeName}, often
+    available the same day.
   </p>
   <a class="btn btn--hivis" href={telHref(hub.phone)}>
     Call {hub.phoneDisplay}
   </a>
   <a class="btn btn--ghost" href={hub.gmb} target="_blank" rel="noopener noreferrer">
-    Open Google Maps listing
+    View on Google Maps
   </a>
   <dl class="contact-meta">
     <div>

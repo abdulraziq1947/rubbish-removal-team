@@ -286,33 +286,33 @@ export function buildHowTo() {
   return {
     '@type': 'HowTo',
     '@id': `${BASE}/#howto`,
-    name: 'How rubbish removal with Rubbish Removal Team works',
+    name: 'How rubbish removal works',
     description:
-      'Call your local hub, we load the waste, then sort it for recycling before residual waste goes to licensed facilities.',
+      'Book a collection, we load the waste, then sort it for recycling before residual waste goes to licensed facilities.',
     step: [
       {
         '@type': 'HowToStep',
         position: 1,
-        name: 'Call your local hub',
-        text: 'Tell the nearest crew what needs to go and where you are in the West Midlands.',
+        name: 'Book your rubbish collection',
+        text: 'Call with the town, waste type and access details so we can quote rubbish removal in the West Midlands.',
       },
       {
         '@type': 'HowToStep',
         position: 2,
-        name: 'We load everything',
-        text: 'Furniture, garden waste, renovation rubble, and loft clutter are loaded by the crew.',
+        name: 'We collect your waste',
+        text: 'Furniture, garden waste, renovation rubble and loft clutter are loaded from the property.',
       },
       {
         '@type': 'HowToStep',
         position: 3,
-        name: 'Sorted, not dumped',
+        name: 'Licensed recycling and disposal',
         text: 'Loads are separated for recycling and reuse before residual waste goes to licensed facilities.',
       },
     ],
   };
 }
 
-export function buildHomeGraph() {
+export function buildHomeGraph(faqs: { q: string; a: string }[] = []) {
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -321,7 +321,7 @@ export function buildHomeGraph() {
       buildWebPage({
         id: `${BASE}/#webpage`,
         url: BASE,
-        name: `${SITE.name} | Rubbish Removal West Midlands`,
+        name: 'Rubbish Removal West Midlands | House Clearance & Junk Removal',
         description: SITE.description,
         mainEntityId: organizationId(),
         mentions: [
@@ -334,6 +334,7 @@ export function buildHomeGraph() {
       }),
       buildBreadcrumb([{ name: 'Home', url: BASE }]),
       buildHowTo(),
+      ...(faqs.length ? [buildFaqPage(BASE, faqs)] : []),
     ],
   };
 }
@@ -352,8 +353,8 @@ export function buildHubGraph(
       buildWebPage({
         id: hubPageId(hub),
         url,
-        name: `Rubbish Removal ${hub.name} | ${SITE.name}`,
-        description: `Rubbish removal in ${hub.name}. Call ${hub.phoneDisplay} for house clearance, junk removal, and waste collection.`,
+        name: `Rubbish Removal ${hub.name} | House Clearance & Junk Removal`,
+        description: `Rubbish removal in ${hub.name}. House clearance, junk removal, garden waste and bulky collections. Call ${hub.phoneDisplay}.`,
         mainEntityId: hubBusinessId(hub),
         mentions: [
           { name: hub.name, sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}` },
@@ -386,8 +387,8 @@ export function buildSubGraph(
       buildWebPage({
         id: subPageId(hub, sub),
         url,
-        name: `Rubbish Removal ${sub.name} | ${SITE.name}`,
-        description: `Rubbish removal in ${sub.name} near ${hub.name}. Local junk removal and house clearance from ${SITE.name}.`,
+        name: `Rubbish Removal ${sub.name} | House Clearance near ${hub.name}`,
+        description: `Rubbish removal in ${sub.name} near ${hub.name}. House clearance, junk removal and garden waste collection.`,
         mainEntityId: `${url}/#service`,
         mentions: [
           { name: sub.name },
@@ -404,7 +405,7 @@ export function buildSubGraph(
         '@type': 'Place',
         '@id': `${url}/#place`,
         name: sub.name,
-        description: `Rubbish removal catchment covering ${sub.name}, served from Rubbish Removal Team ${hub.name}.`,
+        description: `Rubbish removal covering ${sub.name}, served from Rubbish Removal Team ${hub.name}.`,
         containedInPlace: {
           '@type': 'City',
           name: hub.name,

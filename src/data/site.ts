@@ -4,7 +4,7 @@ export const SITE = {
   domain: 'https://rubbishremovalteam.co.uk',
   email: '',
   description:
-    'Professional rubbish removal, house clearance, and waste collection across the West Midlands. Same-day junk removal with responsible recycling.',
+    'Rubbish removal and house clearance across the West Midlands, including Birmingham, Wolverhampton, Coventry, Solihull, Walsall and Dudley.',
   logo: '/logo.png',
   priceRange: '££',
   currency: 'GBP',

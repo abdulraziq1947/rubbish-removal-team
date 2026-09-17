@@ -1,15 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FaqList from '../components/FaqList.astro';
 import { locations, imageForIndex, telHref } from '../data/locations';
 import { SITE } from '../data/site';
 import { buildHomeGraph } from '../lib/schema';
+import { homeFaqs } from '../data/seo';
 
 const hero = imageForIndex(0);
-const schema = buildHomeGraph();
+const faqs = homeFaqs();
+const schema = buildHomeGraph(faqs);
+const title = 'Rubbish Removal West Midlands | House Clearance & Junk Removal';
 ---
 
 <Layout
-  title={`${SITE.name} | Rubbish Removal Across the West Midlands`}
+  title={title}
   description={SITE.description}
   schema={schema}
   keywords={[
@@ -17,6 +21,8 @@ const schema = buildHomeGraph();
     'house clearance Birmingham',
     'junk removal Wolverhampton',
     'waste collection Coventry',
+    'garden waste removal Solihull',
+    'house clearance Walsall',
   ]}
 >
   <section class="hero">
@@ -25,32 +31,29 @@ const schema = buildHomeGraph();
     <div class="hero__grain" aria-hidden="true"></div>
     <div class="container hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">West Midlands rubbish removal</p>
-        <h1>
-          Clear the load.
-          <span>Keep the space.</span>
-        </h1>
+        <p class="eyebrow">House clearance & junk collection</p>
+        <h1>Rubbish Removal in the <span>West Midlands</span></h1>
         <p class="hero__lead">
-          Local crews for house clearance, garden waste, bulky items, and commercial junk —
-          sorted for recycling, not dumped and forgotten.
+          House clearance, junk removal, garden waste and bulky item collection across Birmingham,
+          Wolverhampton, Coventry, Solihull, Walsall, Dudley and nearby towns.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--hivis" href="#locations">Find your local crew</a>
-          <a class="btn btn--ghost" href="#how">See how it works</a>
+          <a class="btn btn--hivis" href="#locations">Find rubbish removal near you</a>
+          <a class="btn btn--ghost" href="#how">How rubbish removal works</a>
         </div>
       </div>
       <ul class="hero__stats">
         <li>
-          <strong>12</strong>
-          <span>Location hubs with their own Google listing</span>
+          <strong>Local</strong>
+          <span>Rubbish removal across Birmingham and the West Midlands</span>
         </li>
         <li>
-          <strong>7–7</strong>
-          <span>Weekday crews, weekend collections available</span>
+          <strong>Same day</strong>
+          <span>House clearance and junk removal when diaries allow</span>
         </li>
         <li>
-          <strong>Sort</strong>
-          <span>Recycling-first disposal through licensed sites</span>
+          <strong>Licensed</strong>
+          <span>Recycling-first waste collection through licensed sites</span>
         </li>
       </ul>
     </div>
@@ -69,11 +72,12 @@ const schema = buildHomeGraph();
   <section class="section" id="services">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">What we take</p>
-        <h2>From a single sofa to a full house clearance</h2>
+        <p class="eyebrow">What we collect</p>
+        <h2>House Clearance, Junk Removal and Waste Collection</h2>
         <p>
-          No skip on the drive. No tip runs. We load it, sort it, and leave the space ready to use
-          again.
+          Rubbish Removal Team collects household junk, garden waste, bulky furniture and commercial
+          waste. No skip on the drive and no tip run — we load it and dispose of it through licensed
+          channels.
         </p>
       </div>
       <div class="bento">
@@ -93,24 +97,24 @@ const schema = buildHomeGraph();
   <section class="section section--ink" id="how">
     <div class="container">
       <div class="section-head section-head--light">
-        <p class="eyebrow">How it works</p>
-        <h2>Three steps. Then it is gone.</h2>
+        <p class="eyebrow">Book a collection</p>
+        <h2>How Rubbish Removal Works</h2>
       </div>
       <ol class="steps">
         <li>
           <span>01</span>
-          <h3>Call your local hub</h3>
-          <p>Tell us what needs to go and where you are. We confirm timing with the nearest crew.</p>
+          <h3>Book your rubbish collection</h3>
+          <p>Call with your town, waste type and access. We quote before we load.</p>
         </li>
         <li>
           <span>02</span>
-          <h3>We load everything</h3>
-          <p>Furniture, garden waste, renovation rubble, loft clutter — we do the heavy lifting.</p>
+          <h3>We collect your waste</h3>
+          <p>Furniture, garden waste, renovation rubble and loft clutter — we do the heavy lifting.</p>
         </li>
         <li>
           <span>03</span>
-          <h3>Sorted, not dumped</h3>
-          <p>Loads are separated for recycling and reuse before residual waste goes to licensed facilities.</p>
+          <h3>Licensed recycling and disposal</h3>
+          <p>Loads are sorted for recycling and reuse before residual waste goes to licensed facilities.</p>
         </li>
       </ol>
     </div>
@@ -119,11 +123,12 @@ const schema = buildHomeGraph();
   <section class="section" id="locations">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Coverage</p>
-        <h2>Twelve hubs. One brand. Local numbers.</h2>
+        <p class="eyebrow">West Midlands coverage</p>
+        <h2>Rubbish Removal Across the West Midlands</h2>
         <p>
-          Pick your town for the crew that covers it — with catchment pages for nearby
-          neighbourhoods.
+          Choose your town for local rubbish removal, house clearance and junk collection in
+          Birmingham, Wolverhampton, Walsall, Dudley, West Bromwich, Sutton Coldfield, Solihull,
+          Coventry, Nuneaton, Redditch, Halesowen and Lichfield.
         </p>
       </div>
       <div class="hub-grid">
@@ -159,16 +164,16 @@ const schema = buildHomeGraph();
   <section class="section section--cream">
     <div class="container split split--offset">
       <div class="copy-stack">
-        <p class="eyebrow">Responsible disposal</p>
-        <h2>We take the mess. We do not leave it for someone else.</h2>
+        <p class="eyebrow">Licensed waste collection</p>
+        <h2>Licensed Rubbish Removal and Recycling</h2>
         <p>
           Rubbish Removal Team sorts loads for recycling and reuse before anything reaches residual
-          waste. Homes and businesses across Birmingham, the Black Country, Coventry, and nearby
-          towns get a clean finish — and a clearer conscience.
+          waste. Homes and businesses in Birmingham, the Black Country, Coventry and nearby towns
+          get licensed waste collection without hiring a skip.
         </p>
         <p>
-          Every hub lists nearby catchment areas, so you can find rubbish removal for your exact
-          neighbourhood, then call the local number for that team.
+          Looking for house clearance or junk removal in a specific neighbourhood? Open your town
+          page for local coverage and the number for that area.
         </p>
       </div>
       <figure class="photo-frame">
@@ -179,8 +184,18 @@ const schema = buildHomeGraph();
           height="560"
           loading="lazy"
         />
-        <figcaption>Recycling-first clearance across the West Midlands</figcaption>
+        <figcaption>Recycling-first rubbish removal across the West Midlands</figcaption>
       </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Rubbish Removal West Midlands FAQs</h2>
+      </div>
+      <FaqList items={faqs} />
     </div>
   </section>
 </Layout>

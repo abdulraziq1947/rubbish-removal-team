@@ -36,6 +36,27 @@ export function hubKeywords(place: string, hub?: string): string[] {
   ]);
 }
 
+export function homeFaqs(): FaqItem[] {
+  return [
+    {
+      q: 'Where do you offer rubbish removal in the West Midlands?',
+      a: 'Rubbish Removal Team collects waste across Birmingham, Wolverhampton, Walsall, Dudley, West Bromwich, Sutton Coldfield, Solihull, Coventry, Nuneaton, Redditch, Halesowen and Lichfield, plus nearby neighbourhoods.',
+    },
+    {
+      q: 'Do you do house clearance as well as junk removal?',
+      a: 'Yes. We provide house clearance, junk removal, garden waste collection, bulky item collection, office clearance and light renovation waste collection across the West Midlands.',
+    },
+    {
+      q: 'How much does rubbish removal cost?',
+      a: 'Price depends on volume, access and waste type. Call the local number for your town for a quote before we load, so there are no surprise tip fees.',
+    },
+    {
+      q: 'Are you licensed waste carriers?',
+      a: 'Yes. Loads are sorted for recycling and reuse before residual waste goes to licensed facilities. We are a rubbish removal and house clearance service, not a house-moving company.',
+    },
+  ];
+}
+
 export function hubFaqs(place: string, phone: string, nearby: string): FaqItem[] {
   return [
     {

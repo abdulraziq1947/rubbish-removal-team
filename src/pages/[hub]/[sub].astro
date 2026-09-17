@@ -32,7 +32,7 @@ const faqs = hubFaqs(sub.name, hub.phoneDisplay, `${hub.name}, ${nearbyNames}`);
 const image = imageForIndex(hub.subAreas.findIndex((s) => s.slug === sub.slug) + 1);
 const schema = buildSubGraph(hub, sub, faqs);
 const title = `Rubbish Removal ${sub.name} | House Clearance near ${hub.name}`;
-const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub.phoneDisplay} for junk removal, house clearance, and garden waste collection from ${SITE.name}.`;
+const description = `Rubbish removal in ${sub.name} near ${hub.name}. House clearance, junk removal and garden waste collection. Call ${hub.phoneDisplay}.`;
 ---
 
 <Layout
@@ -53,10 +53,11 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
           { label: sub.name },
         ]}
       />
-      <p class="eyebrow">Served from {hub.name}</p>
+      <p class="eyebrow">Rubbish removal near {hub.name}</p>
       <h1>Rubbish Removal {sub.name}</h1>
       <p class="hero__lead">
-        Junk removal and waste clearance in {sub.name}, covered by our {hub.name} crew.
+        House clearance, junk removal and waste collection in {sub.name}, covered from {hub.name}.
+        Call {hub.phoneDisplay} to book a collection.
       </p>
     </div>
   </section>
@@ -64,21 +65,21 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
   <section class="section section--overlap">
     <div class="container split">
       <div class="copy-stack">
-        <p class="eyebrow">Catchment area</p>
-        <h2>Need rubbish removed in {sub.name}?</h2>
+        <p class="eyebrow">House clearance {sub.name}</p>
+        <h2>House Clearance in {sub.name}</h2>
         <p>
           {SITE.name} provides rubbish removal in {sub.name} as part of the {hub.name} service
-          area. Household junk, furniture, appliances, garden waste, and commercial clutter collected
+          area. Household junk, furniture, appliances, garden waste and commercial clutter collected
           from homes and workplaces throughout {sub.name}.
         </p>
         <p>
           Searching for rubbish removal {sub.name}, house clearance {sub.name}, or junk removal
-          near {sub.name}? Call {hub.phoneDisplay} and the {hub.name} crew will arrange collection
-          with recycling-first disposal.
+          near {sub.name}? Call {hub.phoneDisplay} and we will arrange collection with recycling-first
+          disposal.
         </p>
         <p>
-          This neighbourhood is served from our{' '}
-          <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a> hub, which also covers {nearbyNames}.
+          This neighbourhood is served from{' '}
+          <a href={`/${hub.slug}`}>rubbish removal {hub.name}</a>, which also covers {nearbyNames}.
         </p>
       </div>
       <ContactBlock hub={hub} placeName={sub.name} />
@@ -88,10 +89,10 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
   <section class="section section--cream">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Route</p>
-        <h2>Driving directions from {sub.name}</h2>
+        <p class="eyebrow">Collection route</p>
+        <h2>Junk Removal Collection from {sub.name}</h2>
         <p>
-          Route from {sub.name} to the {hub.name} crew.{' '}
+          Driving directions from {sub.name} for rubbish removal near {hub.name}.{' '}
           <a href={directionsLink(hub, sub)} target="_blank" rel="noopener noreferrer">
             Open directions in Google Maps
           </a>.
@@ -109,7 +110,7 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Services</p>
-        <h2>Available in {sub.name}</h2>
+        <h2>Rubbish Removal Services in {sub.name}</h2>
       </div>
       <ServicesList placeName={sub.name} />
     </div>
@@ -119,7 +120,7 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Questions</p>
-        <h2>Rubbish removal {sub.name} FAQs</h2>
+        <h2>Rubbish Removal {sub.name} FAQs</h2>
       </div>
       <FaqList items={faqs} />
     </div>
@@ -128,8 +129,8 @@ const description = `Rubbish removal in ${sub.name} near ${hub.name}. Call ${hub
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Nearby</p>
-        <h2>More areas near {hub.name}</h2>
+        <p class="eyebrow">Nearby areas</p>
+        <h2>Rubbish Removal Near {hub.name}</h2>
       </div>
       <div class="chip-row">
         <a class="chip chip--solid" href={`/${hub.slug}`}>All {hub.name} coverage</a>
