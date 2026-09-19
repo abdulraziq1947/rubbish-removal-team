@@ -21,17 +21,27 @@ export interface LocationHub {
 }
 
 function fmt(phone: string): string {
-  // UK local display: group roughly for readability
-  if (phone.startsWith('0121')) {
+  if (phone.startsWith('0121') && phone.length === 11) {
     return `${phone.slice(0, 4)} ${phone.slice(4, 7)} ${phone.slice(7)}`;
   }
-  if (phone.startsWith('024')) {
+  if (phone.startsWith('024') && phone.length === 11) {
     return `${phone.slice(0, 3)} ${phone.slice(3, 7)} ${phone.slice(7)}`;
   }
-  if (phone.length === 11) {
+  if (phone.startsWith('01') && phone.length === 11) {
     return `${phone.slice(0, 5)} ${phone.slice(5, 8)} ${phone.slice(8)}`;
   }
   return phone;
+}
+
+function gmbFor(hub: {
+  name: string;
+  streetAddress?: string;
+  postalCode?: string;
+}): string {
+  const query = hub.streetAddress
+    ? `Rubbish Removal Team ${hub.name}, ${hub.streetAddress}, ${hub.name}${hub.postalCode ? ` ${hub.postalCode}` : ''}`
+    : `Rubbish Removal Team ${hub.name}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 export const locations: LocationHub[] = [
@@ -112,11 +122,13 @@ export const locations: LocationHub[] = [
   {
     name: 'West Bromwich',
     slug: 'west-bromwich',
-    phone: '01214652124',
-    phoneDisplay: fmt('01214652124'),
-    gmb: 'https://maps.app.goo.gl/XRJEY4JFH8KLR7Yk9',
-    lat: 52.5333,
-    lng: -2.0036,
+    phone: '01214052137',
+    phoneDisplay: fmt('01214052137'),
+    gmb: gmbFor({ name: 'West Bromwich', streetAddress: '43 Esher Rd', postalCode: 'B71 1QR' }),
+    lat: 52.519,
+    lng: -1.994,
+    streetAddress: '43 Esher Rd',
+    postalCode: 'B71 1QR',
     region: 'West Midlands',
     catchmentNote: 'West Bromwich and Sandwell catchments',
     wikidata: 'Q212477',
@@ -197,10 +209,30 @@ export const locations: LocationHub[] = [
     catchmentNote: 'Nuneaton and surrounding towns',
     wikidata: 'Q175280',
     subAreas: [
-      { name: 'Bedworth', slug: 'bedworth' },
       { name: 'Hinckley', slug: 'hinckley' },
       { name: 'Atherstone', slug: 'atherstone' },
       { name: 'Bulkington', slug: 'bulkington' },
+      { name: 'Hartshill', slug: 'hartshill' },
+    ],
+  },
+  {
+    name: 'Bedworth',
+    slug: 'bedworth',
+    phone: '02475070386',
+    phoneDisplay: fmt('02475070386'),
+    gmb: gmbFor({ name: 'Bedworth', streetAddress: '6 Sleets Yard', postalCode: 'CV12 8UE' }),
+    lat: 52.478,
+    lng: -1.467,
+    streetAddress: '6 Sleets Yard',
+    postalCode: 'CV12 8UE',
+    region: 'Warwickshire',
+    catchmentNote: 'Bedworth and nearby north Warwickshire neighbourhoods',
+    wikidata: 'Q813966',
+    subAreas: [
+      { name: 'Exhall', slug: 'exhall' },
+      { name: 'Longford', slug: 'longford' },
+      { name: 'Keresley', slug: 'keresley' },
+      { name: 'Collycroft', slug: 'collycroft' },
     ],
   },
   {
@@ -224,11 +256,13 @@ export const locations: LocationHub[] = [
   {
     name: 'Halesowen',
     slug: 'halesowen',
-    phone: '01214652109',
-    phoneDisplay: fmt('01214652109'),
-    gmb: 'https://maps.app.goo.gl/tU1G1AmoqNNZHR2Z7',
-    lat: 52.453,
-    lng: -2.0582,
+    phone: '01214052135',
+    phoneDisplay: fmt('01214052135'),
+    gmb: gmbFor({ name: 'Halesowen', streetAddress: '15 Hagley Rd', postalCode: 'B63 4PU' }),
+    lat: 52.449,
+    lng: -2.051,
+    streetAddress: '15 Hagley Rd',
+    postalCode: 'B63 4PU',
     region: 'West Midlands',
     catchmentNote: 'Halesowen and bordering Sandwell/Birmingham areas',
     wikidata: 'Q1016931',
@@ -237,6 +271,126 @@ export const locations: LocationHub[] = [
       { name: 'Blackheath', slug: 'blackheath' },
       { name: 'Cradley Heath', slug: 'cradley-heath' },
       { name: 'Rowley Regis', slug: 'rowley-regis' },
+    ],
+  },
+  {
+    name: 'Stourbridge',
+    slug: 'stourbridge',
+    phone: '01384930201',
+    phoneDisplay: fmt('01384930201'),
+    gmb: gmbFor({ name: 'Stourbridge', streetAddress: '11 Victoria Psge', postalCode: 'DY8 1DP' }),
+    lat: 52.461,
+    lng: -2.143,
+    streetAddress: '11 Victoria Psge',
+    postalCode: 'DY8 1DP',
+    region: 'West Midlands',
+    catchmentNote: 'Stourbridge and the surrounding Black Country towns',
+    wikidata: 'Q1288864',
+    subAreas: [
+      { name: 'Amblecote', slug: 'amblecote' },
+      { name: 'Wollaston', slug: 'wollaston' },
+      { name: 'Kinver', slug: 'kinver' },
+      { name: 'Lye', slug: 'lye' },
+    ],
+  },
+  {
+    name: 'Kidderminster',
+    slug: 'kidderminster',
+    phone: '01562265073',
+    phoneDisplay: fmt('01562265073'),
+    gmb: gmbFor({ name: 'Kidderminster', streetAddress: '90 New Rd', postalCode: 'DY10 1AE' }),
+    lat: 52.388,
+    lng: -2.249,
+    streetAddress: '90 New Rd',
+    postalCode: 'DY10 1AE',
+    region: 'Worcestershire',
+    catchmentNote: 'Kidderminster and Wyre Forest towns nearby',
+    wikidata: 'Q660127',
+    subAreas: [
+      { name: 'Stourport-on-Severn', slug: 'stourport-on-severn' },
+      { name: 'Bewdley', slug: 'bewdley' },
+      { name: 'Blakedown', slug: 'blakedown' },
+      { name: 'Cookley', slug: 'cookley' },
+    ],
+  },
+  {
+    name: 'Bromsgrove',
+    slug: 'bromsgrove',
+    phone: '01527306792',
+    phoneDisplay: fmt('01527306792'),
+    gmb: gmbFor({ name: 'Bromsgrove', streetAddress: '2 Guild Ct', postalCode: 'B60 2BT' }),
+    lat: 52.336,
+    lng: -2.06,
+    streetAddress: '2 Guild Ct',
+    postalCode: 'B60 2BT',
+    region: 'Worcestershire',
+    catchmentNote: 'Bromsgrove and nearby Worcestershire villages',
+    wikidata: 'Q921098',
+    subAreas: [
+      { name: 'Rubery', slug: 'rubery' },
+      { name: 'Catshill', slug: 'catshill' },
+      { name: 'Lickey End', slug: 'lickey-end' },
+      { name: 'Barnt Green', slug: 'barnt-green' },
+    ],
+  },
+  {
+    name: 'Warwick',
+    slug: 'warwick',
+    phone: '01926266146',
+    phoneDisplay: fmt('01926266146'),
+    gmb: gmbFor({ name: 'Warwick', streetAddress: '31 Smith St', postalCode: 'CV34 4JA' }),
+    lat: 52.281,
+    lng: -1.589,
+    streetAddress: '31 Smith St',
+    postalCode: 'CV34 4JA',
+    region: 'Warwickshire',
+    catchmentNote: 'Warwick and surrounding Warwickshire towns',
+    wikidata: 'Q844917',
+    subAreas: [
+      { name: 'Kenilworth', slug: 'kenilworth' },
+      { name: 'Whitnash', slug: 'whitnash' },
+      { name: 'Leamington Spa', slug: 'leamington-spa' },
+      { name: 'Barford', slug: 'barford' },
+    ],
+  },
+  {
+    name: 'Tamworth',
+    slug: 'tamworth',
+    phone: '01827799048',
+    phoneDisplay: fmt('01827799048'),
+    gmb: gmbFor({ name: 'Tamworth', streetAddress: '22 West St', postalCode: 'B79 7JE' }),
+    lat: 52.634,
+    lng: -1.695,
+    streetAddress: '22 West St',
+    postalCode: 'B79 7JE',
+    region: 'Staffordshire',
+    catchmentNote: 'Tamworth and nearby Staffordshire towns',
+    wikidata: 'Q875329',
+    subAreas: [
+      { name: 'Wilnecote', slug: 'wilnecote' },
+      { name: 'Glascote', slug: 'glascote' },
+      { name: 'Polesworth', slug: 'polesworth' },
+      { name: 'Fazeley', slug: 'fazeley' },
+    ],
+  },
+  {
+    name: 'Cannock',
+    slug: 'cannock',
+    phone: '01543241317',
+    phoneDisplay: fmt('01543241317'),
+    gmb: gmbFor({ name: 'Cannock', streetAddress: '108 Cannock Rd', postalCode: 'WS11 5BH' }),
+    lat: 52.687,
+    lng: -2.019,
+    streetAddress: '108 Cannock Rd',
+    postalCode: 'WS11 5BH',
+    region: 'Staffordshire',
+    catchmentNote: 'Cannock and surrounding Staffordshire districts',
+    wikidata: 'Q1025962',
+    subAreas: [
+      { name: 'Hednesford', slug: 'hednesford' },
+      { name: 'Heath Hayes', slug: 'heath-hayes' },
+      { name: 'Norton Canes', slug: 'norton-canes' },
+      { name: 'Great Wyrley', slug: 'great-wyrley' },
     ],
   },
   {
@@ -259,8 +413,29 @@ export const locations: LocationHub[] = [
   },
 ];
 
+const REGION_ORDER = ['West Midlands', 'Warwickshire', 'Worcestershire', 'Staffordshire'];
+
 export function getHub(slug: string): LocationHub | undefined {
   return locations.find((l) => l.slug === slug);
+}
+
+export function locationsByRegion(): { region: string; hubs: LocationHub[] }[] {
+  const grouped = new Map<string, LocationHub[]>();
+  for (const hub of locations) {
+    const list = grouped.get(hub.region) ?? [];
+    list.push(hub);
+    grouped.set(hub.region, list);
+  }
+
+  return REGION_ORDER.filter((region) => grouped.has(region)).map((region) => ({
+    region,
+    hubs: grouped.get(region)!,
+  }));
+}
+
+export function formatAddress(hub: LocationHub): string {
+  const parts = [hub.streetAddress, hub.name, hub.postalCode].filter(Boolean);
+  return parts.join(', ');
 }
 
 export function getSubArea(hubSlug: string, subSlug: string) {

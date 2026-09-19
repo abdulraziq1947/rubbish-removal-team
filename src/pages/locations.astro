@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { locations, locationsByRegion, formatAddress, telHref } from '../data/locations';
+import { SITE } from '../data/site';
+import { buildLocationsGraph } from '../lib/schema';
+
+const title = 'Our Locations | Rubbish Removal Team';
+const description =
+  'All Rubbish Removal Team locations across the West Midlands, Warwickshire, Worcestershire and Staffordshire. Local rubbish removal, house clearance and junk collection numbers.';
+const schema = buildLocationsGraph();
+const grouped = locationsByRegion();
+---
+
+<Layout
+  title={title}
+  description={description}
+  schema={schema}
+  keywords={[
+    'rubbish removal locations',
+    'house clearance West Midlands',
+    'junk removal near me',
+    'Rubbish Removal Team locations',
+  ]}
+>
+  <section class="hero hero--page hero--compact">
+    <div class="hero__overlay hero__overlay--solid"></div>
+    <div class="container hero__page-copy">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Our Locations' }]} />
+      <p class="eyebrow">Rubbish removal near you</p>
+      <h1>Our Locations</h1>
+      <p class="hero__lead">
+        {locations.length} Rubbish Removal Team locations across the West Midlands, Warwickshire,
+        Worcestershire and Staffordshire. Choose your town for house clearance, junk removal and
+        waste collection.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--overlap">
+    <div class="container">
+      {
+        grouped.map(({ region, hubs }) => (
+          <div class="location-group">
+            <div class="section-head">
+              <p class="eyebrow">{region}</p>
+              <h2>Rubbish Removal in {region}</h2>
+            </div>
+            <ul class="location-directory">
+              {hubs.map((hub) => (
+                <li class="location-row">
+                  <div class="location-row__main">
+                    <h3>
+                      <a href={`/${hub.slug}`}>Rubbish Removal {hub.name}</a>
+                    </h3>
+                    <p>{hub.catchmentNote}</p>
+                    {hub.streetAddress && (
+                      <p class="location-row__address">{formatAddress(hub)}</p>
+                    )}
+                  </div>
+                  <div class="location-row__actions">
+                    <a class="location-row__phone" href={telHref(hub.phone)}>
+                      {hub.phoneDisplay}
+                    </a>
+                    <div class="location-row__links">
+                      <a href={`/${hub.slug}`}>Area page</a>
+                      <a href={hub.gmb} target="_blank" rel="noopener noreferrer">
+                        Google Maps
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container copy-stack">
+      <p class="eyebrow">Need a nearby area?</p>
+      <h2>Neighbourhood Rubbish Removal Pages</h2>
+      <p>
+        Each {SITE.name} location includes neighbourhood pages for house clearance and junk removal
+        in nearby towns and suburbs. Open your town to see local coverage and call the number for
+        that area.
+      </p>
+    </div>
+  </section>
+</Layout>

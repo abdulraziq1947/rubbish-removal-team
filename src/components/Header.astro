@@ -5,7 +5,7 @@ import { locations } from '../data/locations';
 <div class="topbar">
   <div class="container topbar-inner">
     <p>Licensed waste carriers · Rubbish removal across the West Midlands</p>
-    <a href="/#locations">Service areas</a>
+    <a href="/locations">Our locations</a>
   </div>
 </div>
 
@@ -18,7 +18,7 @@ import { locations } from '../data/locations';
     <nav class="nav-desktop" aria-label="Primary">
       <a href="/#services">Services</a>
       <a href="/#how">How it works</a>
-      <a href="/#locations">Locations</a>
+      <a href="/locations">Locations</a>
       <details class="nav-areas">
         <summary>Areas</summary>
         <div class="nav-panel nav-panel--light">
@@ -37,7 +37,7 @@ import { locations } from '../data/locations';
       <div class="nav-panel">
         <a href="/#services">Services</a>
         <a href="/#how">How it works</a>
-        <a href="/#locations">Areas</a>
+        <a href="/locations">Locations</a>
         <p class="nav-panel__label">Rubbish removal areas</p>
         {locations.map((hub) => (
           <a href={`/${hub.slug}`}>{hub.name}</a>

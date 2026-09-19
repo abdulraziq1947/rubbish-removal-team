@@ -40,7 +40,7 @@ export function homeFaqs(): FaqItem[] {
   return [
     {
       q: 'Where do you offer rubbish removal in the West Midlands?',
-      a: 'Rubbish Removal Team collects waste across Birmingham, Wolverhampton, Walsall, Dudley, West Bromwich, Sutton Coldfield, Solihull, Coventry, Nuneaton, Redditch, Halesowen and Lichfield, plus nearby neighbourhoods.',
+      a: 'Rubbish Removal Team collects waste across Birmingham, Wolverhampton, Coventry, Tamworth, Cannock, Kidderminster, Warwick, Bedworth, Bromsgrove, Stourbridge and other West Midlands towns, plus nearby neighbourhoods.',
     },
     {
       q: 'Do you do house clearance as well as junk removal?',

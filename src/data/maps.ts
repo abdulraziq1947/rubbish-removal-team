@@ -1,4 +1,4 @@
-import { type LocationHub, type SubArea } from './locations';
+import { hubDestination, type LocationHub, type SubArea } from './locations';
 
 const KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_EMBED_KEY ?? '';
 
@@ -38,8 +38,22 @@ function listingName(hub: LocationHub) {
   return `Rubbish Removal Team ${hub.name}`;
 }
 
+function generatedPlaceEmbed(hub: LocationHub): string {
+  const query = hubDestination(hub);
+  if (KEY) {
+    const params = new URLSearchParams({
+      key: KEY,
+      q: query,
+      zoom: '14',
+      center: `${hub.lat},${hub.lng}`,
+    });
+    return `https://www.google.com/maps/embed/v1/place?${params.toString()}`;
+  }
+  return `https://maps.google.com/maps?q=${encode(query)}&ll=${hub.lat},${hub.lng}&z=14&hl=en&output=embed`;
+}
+
 export function placeEmbed(hub: LocationHub): string {
-  return placeEmbeds[hub.slug] ?? placeEmbeds.birmingham;
+  return placeEmbeds[hub.slug] ?? generatedPlaceEmbed(hub);
 }
 
 /** Driving directions from a catchment area to that hub's GBP listing. */

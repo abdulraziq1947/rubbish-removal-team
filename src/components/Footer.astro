@@ -17,6 +17,9 @@ const year = new Date().getFullYear();
     </div>
     <div>
       <h2 class="footer-heading">Rubbish Removal Areas</h2>
+      <p class="footer-links-intro">
+        <a href="/locations">View all {locations.length} locations</a>
+      </p>
       <ul class="footer-links">
         {locations.map((hub) => (
           <li>

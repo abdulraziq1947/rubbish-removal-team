@@ -4,7 +4,7 @@ export const SITE = {
   domain: 'https://rubbishremovalteam.co.uk',
   email: '',
   description:
-    'Rubbish removal and house clearance across the West Midlands, including Birmingham, Wolverhampton, Coventry, Solihull, Walsall and Dudley.',
+    'Rubbish removal and house clearance across the West Midlands, Warwickshire, Worcestershire and Staffordshire, including Birmingham, Coventry, Tamworth and Cannock.',
   logo: '/logo.png',
   priceRange: '££',
   currency: 'GBP',

@@ -312,6 +312,33 @@ export function buildHowTo() {
   };
 }
 
+export function buildLocationsGraph() {
+  const url = `${BASE}/locations`;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      buildOrganizationNode(),
+      buildWebsiteNode(),
+      buildWebPage({
+        id: `${url}/#webpage`,
+        url,
+        name: 'Our Locations | Rubbish Removal Team',
+        description:
+          'All Rubbish Removal Team locations across the West Midlands, Warwickshire, Worcestershire and Staffordshire with local phone numbers and addresses.',
+        mainEntityId: organizationId(),
+        mentions: locations.map((hub) => ({
+          name: hub.name,
+          sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
+        })),
+      }),
+      buildBreadcrumb([
+        { name: 'Home', url: BASE },
+        { name: 'Our Locations', url },
+      ]),
+    ],
+  };
+}
+
 export function buildHomeGraph(faqs: { q: string; a: string }[] = []) {
   return {
     '@context': 'https://schema.org',
