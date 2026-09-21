@@ -1,5 +1,5 @@
 ---
-import { SITE } from '../data/site';
+import { services } from '../data/services';
 
 interface Props {
   placeName: string;
@@ -10,6 +10,8 @@ const { placeName } = Astro.props;
 const icons: Record<string, string> = {
   'house-clearance':
     'M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z',
+  'junk-removal':
+    'M4 7h16v2H4V7Zm1 3h14l-1.2 9.2A2 2 0 0 1 15.82 21H8.18a2 2 0 0 1-1.98-1.8L5 10Zm4-5h6l1 2H8l1-2Z',
   'garden-waste':
     'M12 21c-4 0-7-3.2-7-8 2.5 0 4.2-1 5.4-2.4C9.2 14 10.8 16 12 16s2.8-2 1.6-5.4C14.8 12 16.5 13 19 13c0 4.8-3 8-7 8Zm0-9.5C13.8 8.2 15 5.8 15 4c-3 .8-4.5 3.2-5 5.8C9.2 7.2 7.6 5.5 5 5c.4 2.6 2 5 4.2 6.8.8.1 1.8.1 2.8-.3Z',
   'office-clearance':
@@ -25,7 +27,7 @@ const icons: Record<string, string> = {
 
 <ul class="service-tiles">
   {
-    SITE.services.map((service) => (
+    services.map((service) => (
       <li class="service-tile">
         <span class="service-tile__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor">
@@ -34,9 +36,11 @@ const icons: Record<string, string> = {
         </span>
         <div>
           <h3>
-            {service.name} in {placeName}
+            <a href={`/services/${service.slug}`}>
+              {service.name} in {placeName}
+            </a>
           </h3>
-          <p>{service.description}</p>
+          <p>{service.short}</p>
         </div>
       </li>
     ))

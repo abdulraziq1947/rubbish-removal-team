@@ -30,6 +30,12 @@ export const SITE = {
         'Full and partial house and flat clearances, including furniture, appliances, and general household waste.',
     },
     {
+      slug: 'junk-removal',
+      name: 'Junk Removal',
+      description:
+        'Same-day junk removal for household clutter, furniture and bulky waste without hiring a skip.',
+    },
+    {
       slug: 'garden-waste',
       name: 'Garden Waste Removal',
       description:

@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { services } from '../../data/services';
+import { imageForIndex } from '../../data/locations';
+import { buildServicesIndexGraph } from '../../lib/schema';
+
+const title = 'Rubbish Removal Services | House Clearance & Junk Removal';
+const description =
+  'House clearance, junk removal, garden waste, office clearance, bulky item collection and renovation waste removal across the West Midlands.';
+const schema = buildServicesIndexGraph();
+---
+
+<Layout
+  title={title}
+  description={description}
+  schema={schema}
+  keywords={[
+    'rubbish removal services',
+    'house clearance West Midlands',
+    'junk removal',
+    'garden waste removal',
+    'office clearance',
+  ]}
+>
+  <section class="hero hero--page hero--compact">
+    <div class="hero__overlay hero__overlay--solid"></div>
+    <div class="container hero__page-copy">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
+      <p class="eyebrow">What we collect</p>
+      <h1>Rubbish Removal Services</h1>
+      <p class="hero__lead">
+        House clearance, junk removal, garden waste, office clearance and bulky collections across
+        the West Midlands, Warwickshire, Worcestershire and Staffordshire.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--overlap">
+    <div class="container">
+      <div class="hub-grid">
+        {
+          services.map((service, i) => {
+            const img = imageForIndex(i);
+            return (
+              <article class="hub-card">
+                <a href={`/services/${service.slug}`} class="hub-card__media">
+                  <img src={img.url} alt="" width="640" height="400" loading="lazy" />
+                  <span class="hub-card__tag">{String(i + 1).padStart(2, '0')}</span>
+                </a>
+                <div class="hub-card__body">
+                  <h2>
+                    <a href={`/services/${service.slug}`}>{service.name}</a>
+                  </h2>
+                  <p>{service.short}</p>
+                  <div class="hub-card__actions">
+                    <a href={`/services/${service.slug}`}>Service page</a>
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container copy-stack">
+      <p class="eyebrow">Book locally</p>
+      <h2>Rubbish Removal Across the West Midlands</h2>
+      <p>
+        Every service is available from our local teams. Choose a service above, then open{' '}
+        <a href="/locations">Our Locations</a> for the phone number covering your town.
+      </p>
+    </div>
+  </section>
+</Layout>

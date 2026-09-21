@@ -1,5 +1,6 @@
 ---
 import { locations } from '../data/locations';
+import { services } from '../data/services';
 import { SITE } from '../data/site';
 
 const year = new Date().getFullYear();
@@ -7,13 +8,26 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="footer-stripe" aria-hidden="true"></div>
-  <div class="container footer-grid">
+  <div class="container footer-grid footer-grid--3">
     <div class="footer-brand-block">
       <img src="/logo.png" alt="" class="footer-logo" width="320" height="56" />
       <p class="footer-lede">
         Rubbish removal, house clearance and junk collection across the West Midlands, with licensed
         recycling-first disposal.
       </p>
+    </div>
+    <div>
+      <h2 class="footer-heading">Services</h2>
+      <p class="footer-links-intro">
+        <a href="/services">View all services</a>
+      </p>
+      <ul class="footer-links footer-links--simple">
+        {services.map((service) => (
+          <li>
+            <a href={`/services/${service.slug}`}>{service.name}</a>
+          </li>
+        ))}
+      </ul>
     </div>
     <div>
       <h2 class="footer-heading">Rubbish Removal Areas</h2>

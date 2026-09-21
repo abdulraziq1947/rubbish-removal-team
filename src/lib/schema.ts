@@ -1,5 +1,7 @@
 import { SITE } from '../data/site';
 import { locations, toE164, type LocationHub, type SubArea } from '../data/locations';
+import type { ServicePage } from '../data/services';
+import { services } from '../data/services';
 
 const BASE = SITE.domain;
 
@@ -335,6 +337,96 @@ export function buildLocationsGraph() {
         { name: 'Home', url: BASE },
         { name: 'Our Locations', url },
       ]),
+    ],
+  };
+}
+
+export function buildServicesIndexGraph() {
+  const url = `${BASE}/services`;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      buildOrganizationNode(),
+      buildWebsiteNode(),
+      buildWebPage({
+        id: `${url}/#webpage`,
+        url,
+        name: 'Rubbish Removal Services | House Clearance & Junk Removal',
+        description:
+          'House clearance, junk removal, garden waste, office clearance and bulky item collection across the West Midlands.',
+        mainEntityId: organizationId(),
+        mentions: services.map((s) => ({ name: s.name })),
+      }),
+      buildBreadcrumb([
+        { name: 'Home', url: BASE },
+        { name: 'Services', url },
+      ]),
+      {
+        '@type': 'ItemList',
+        '@id': `${url}/#itemlist`,
+        name: 'Rubbish Removal Services',
+        numberOfItems: services.length,
+        itemListElement: services.map((service, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: service.name,
+          url: `${BASE}/services/${service.slug}`,
+        })),
+      },
+    ],
+  };
+}
+
+export function buildServicePageGraph(
+  service: ServicePage,
+  faqs: { q: string; a: string }[] = [],
+) {
+  const url = `${BASE}/services/${service.slug}`;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      buildOrganizationNode(),
+      buildWebsiteNode(),
+      buildWebPage({
+        id: `${url}/#webpage`,
+        url,
+        name: service.title,
+        description: service.description,
+        mainEntityId: `${url}/#service`,
+        mentions: [
+          { name: 'West Midlands', sameAs: 'https://www.wikidata.org/wiki/Q23124' },
+          ...locations.slice(0, 6).map((hub) => ({
+            name: hub.name,
+            sameAs: `https://www.wikidata.org/wiki/${hub.wikidata}`,
+          })),
+        ],
+      }),
+      buildBreadcrumb([
+        { name: 'Home', url: BASE },
+        { name: 'Services', url: `${BASE}/services` },
+        { name: service.name, url },
+      ]),
+      {
+        '@type': 'Service',
+        '@id': `${url}/#service`,
+        name: service.h1,
+        serviceType: service.name,
+        description: service.description,
+        provider: { '@id': organizationId() },
+        areaServed: {
+          '@type': 'AdministrativeArea',
+          name: 'West Midlands',
+          sameAs: 'https://www.wikidata.org/wiki/Q23124',
+        },
+        url,
+        offers: {
+          '@type': 'Offer',
+          url,
+          priceCurrency: SITE.currency,
+          availability: 'https://schema.org/InStock',
+        },
+      },
+      ...(faqs.length ? [buildFaqPage(url, faqs)] : []),
     ],
   };
 }

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import FaqList from '../components/FaqList.astro';
 import { locations, imageForIndex, telHref } from '../data/locations';
 import { SITE } from '../data/site';
+import { services } from '../data/services';
 import { buildHomeGraph } from '../lib/schema';
 import { homeFaqs } from '../data/seo';
 
@@ -77,16 +78,18 @@ const title = 'Rubbish Removal West Midlands | House Clearance & Junk Removal';
         <p>
           Rubbish Removal Team collects household junk, garden waste, bulky furniture and commercial
           waste. No skip on the drive and no tip run — we load it and dispose of it through licensed
-          channels.
+          channels. <a href="/services">View all services</a>.
         </p>
       </div>
       <div class="bento">
         {
-          SITE.services.map((service, i) => (
+          services.map((service, i) => (
             <article class:list={['bento-card', i === 0 && 'bento-card--wide']}>
               <span class="bento-card__index">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{service.name}</h3>
-              <p>{service.description}</p>
+              <h3>
+                <a href={`/services/${service.slug}`}>{service.name}</a>
+              </h3>
+              <p>{service.short}</p>
             </article>
           ))
         }

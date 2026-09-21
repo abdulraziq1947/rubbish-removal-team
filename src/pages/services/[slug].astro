@@ -1,0 +1,166 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqList from '../../components/FaqList.astro';
+import { services, getService, serviceFaqs } from '../../data/services';
+import { locations, imageForIndex } from '../../data/locations';
+import { SITE } from '../../data/site';
+import { buildServicePageGraph } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const service = getService(slug!);
+
+if (!service) {
+  return Astro.redirect('/services');
+}
+
+const faqs = serviceFaqs(service);
+const image = imageForIndex(services.findIndex((s) => s.slug === service.slug));
+const schema = buildServicePageGraph(service, faqs);
+const featuredHubs = locations.slice(0, 12);
+---
+
+<Layout
+  title={service.title}
+  description={service.description}
+  schema={schema}
+  keywords={service.keywords}
+>
+  <section class="hero hero--page">
+    <img class="hero__image" src={image.url} alt={image.alt} width="1600" height="900" loading="eager" />
+    <div class="hero__overlay"></div>
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="container hero__page-copy">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Services', href: '/services' },
+          { label: service.name },
+        ]}
+      />
+      <p class="eyebrow">Rubbish removal service</p>
+      <h1>{service.h1}</h1>
+      <p class="hero__lead">{service.lead}</p>
+      <div class="hero__actions">
+        <a class="btn btn--hivis" href="/locations">Find your local number</a>
+        <a class="btn btn--ghost" href="/services">All services</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--overlap">
+    <div class="container split">
+      <div class="copy-stack">
+        <p class="eyebrow">{service.name}</p>
+        <h2>{service.name} Across the West Midlands</h2>
+        {service.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <aside class="contact-card" aria-labelledby="service-book">
+        <p class="contact-card__kicker">{service.name}</p>
+        <h2 id="service-book">Book {service.name.toLowerCase()}</h2>
+        <p>
+          Call the Rubbish Removal Team number for your town. Same-day {service.name.toLowerCase()}{' '}
+          is often available Monday to Saturday.
+        </p>
+        <a class="btn btn--hivis" href="/locations">View local numbers</a>
+        <a class="btn btn--ghost" href="/services">More services</a>
+        <dl class="contact-meta">
+          <div>
+            <dt>Hours</dt>
+            <dd>Mon–Fri 7am–7pm</dd>
+            <dd>Sat 8am–5pm · Sun 9am–4pm</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What we take</p>
+        <h2>What {service.name} Covers</h2>
+      </div>
+      <ul class="check-grid">
+        {service.whatWeTake.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Who it is for</p>
+        <h2>Who Books {service.name}</h2>
+      </div>
+      <ul class="reason-grid">
+        {service.whoFor.map((item) => (
+          <li>
+            <h3>{item}</h3>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Local coverage</p>
+        <h2>{service.name} Near You</h2>
+        <p>
+          {SITE.name} provides {service.name.toLowerCase()} from local teams across the West
+          Midlands. Open a town page or call the number for that area.
+        </p>
+      </div>
+      <div class="chip-row">
+        {
+          featuredHubs.map((hub) => (
+            <a class="chip" href={`/${hub.slug}`}>
+              {service.name} {hub.name}
+            </a>
+          ))
+        }
+        <a class="chip chip--solid" href="/locations">All locations</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>{service.name} FAQs</h2>
+      </div>
+      <FaqList items={faqs} />
+    </div>
+  </section>
+
+  <section class="section section--ink">
+    <div class="container">
+      <div class="section-head section-head--light">
+        <p class="eyebrow">More services</p>
+        <h2>Related Rubbish Removal Services</h2>
+      </div>
+      <div class="chip-row">
+        {
+          services
+            .filter((s) => s.slug !== service.slug)
+            .map((related) => (
+              <a class="chip chip--light" href={`/services/${related.slug}`}>
+                {related.name}
+              </a>
+            ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

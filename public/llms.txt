@@ -8,10 +8,21 @@
 - Website: https://rubbishremovalteam.co.uk
 - Region: West Midlands, Warwickshire, Worcestershire, Staffordshire
 - Hours: Mon–Fri 7am–7pm, Sat 8am–5pm, Sun 9am–4pm
-- Services: house clearance, garden waste, office clearance, bulky item collection, construction waste, garage/loft/shed clear-outs
+- Services: house clearance, junk removal, garden waste, office clearance, bulky item collection, construction waste, garage/loft/shed clear-outs
 - Disposal: recycling-first sorting, then licensed residual waste facilities
 - Locations page: https://rubbishremovalteam.co.uk/locations
+- Services page: https://rubbishremovalteam.co.uk/services
 - Sitemap: https://rubbishremovalteam.co.uk/sitemap.xml
+
+## Services
+
+- [House Clearance](https://rubbishremovalteam.co.uk/services/house-clearance)
+- [Junk Removal](https://rubbishremovalteam.co.uk/services/junk-removal)
+- [Garden Waste Removal](https://rubbishremovalteam.co.uk/services/garden-waste)
+- [Office & Commercial Clearance](https://rubbishremovalteam.co.uk/services/office-clearance)
+- [Bulky Item Collection](https://rubbishremovalteam.co.uk/services/bulky-items)
+- [Construction & Renovation Waste](https://rubbishremovalteam.co.uk/services/construction-waste)
+- [Garage, Loft & Shed Clear-Outs](https://rubbishremovalteam.co.uk/services/garage-loft)
 
 ## Service areas
 
