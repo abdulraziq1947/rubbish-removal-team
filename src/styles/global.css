@@ -1101,6 +1101,15 @@ p {
   margin: 0;
 }
 
+.footer-bottom a {
+  color: var(--hivis);
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 48rem) {
   .nav-desktop {
     display: flex;

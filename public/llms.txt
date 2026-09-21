@@ -11,6 +11,7 @@
 - Services: house clearance, garden waste, office clearance, bulky item collection, construction waste, garage/loft/shed clear-outs
 - Disposal: recycling-first sorting, then licensed residual waste facilities
 - Locations page: https://rubbishremovalteam.co.uk/locations
+- Sitemap: https://rubbishremovalteam.co.uk/sitemap.xml
 
 ## Service areas
 
