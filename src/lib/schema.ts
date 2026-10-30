@@ -326,7 +326,7 @@ export function buildLocationsGraph() {
         url,
         name: 'Our Locations | Rubbish Removal Team',
         description:
-          'All Rubbish Removal Team locations across the West Midlands, Warwickshire, Worcestershire and Staffordshire with local phone numbers and addresses.',
+          'All Rubbish Removal Team locations across the Midlands, Greater Manchester, Yorkshire, Cheshire, Lancashire and nearby towns with local phone numbers and addresses.',
         mainEntityId: organizationId(),
         mentions: locations.map((hub) => ({
           name: hub.name,

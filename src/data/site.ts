@@ -4,7 +4,7 @@ export const SITE = {
   domain: 'https://rubbishremovalteam.co.uk',
   email: '',
   description:
-    'Rubbish removal and house clearance across the West Midlands, Warwickshire, Worcestershire and Staffordshire, including Birmingham, Coventry, Tamworth and Cannock.',
+    'Rubbish removal and house clearance across the Midlands and North of England, including Birmingham, Manchester, Sheffield, Nottingham, Derby, Liverpool City Region towns and Cheshire.',
   logo: '/logo.png',
   priceRange: '££',
   currency: 'GBP',

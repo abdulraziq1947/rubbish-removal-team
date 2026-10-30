@@ -39,12 +39,12 @@ export function hubKeywords(place: string, hub?: string): string[] {
 export function homeFaqs(): FaqItem[] {
   return [
     {
-      q: 'Where do you offer rubbish removal in the West Midlands?',
-      a: 'Rubbish Removal Team collects waste across Birmingham, Wolverhampton, Coventry, Tamworth, Cannock, Kidderminster, Warwick, Bedworth, Bromsgrove, Stourbridge and other West Midlands towns, plus nearby neighbourhoods.',
+      q: 'Where do you offer rubbish removal?',
+      a: 'Rubbish Removal Team collects waste across the Midlands and North of England, including Birmingham, Manchester, Sheffield, Nottingham, Derby, Stoke-on-Trent, Bolton, Warrington, Huddersfield and dozens of nearby towns.',
     },
     {
       q: 'Do you do house clearance as well as junk removal?',
-      a: 'Yes. We provide house clearance, junk removal, garden waste collection, bulky item collection, office clearance and light renovation waste collection across the West Midlands.',
+      a: 'Yes. We provide house clearance, junk removal, garden waste collection, bulky item collection, office clearance and light renovation waste collection across our service areas.',
     },
     {
       q: 'How much does rubbish removal cost?',

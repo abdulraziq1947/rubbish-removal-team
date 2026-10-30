@@ -33,7 +33,7 @@ export const services: ServicePage[] = [
     lead:
       'House clearance for homes, flats and rental properties across Birmingham, Coventry, Wolverhampton and the wider West Midlands. We load everything and dispose of it through licensed channels.',
     body: [
-      'Rubbish Removal Team provides house clearance across the West Midlands, Warwickshire, Worcestershire and Staffordshire. Whether you need a full house clearance after a move, probate, or eviction, or a partial clearance of one or two rooms, we load the waste and leave the property clear.',
+      'Rubbish Removal Team provides house clearance across the Midlands and North of England. Whether you need a full house clearance after a move, probate, or eviction, or a partial clearance of one or two rooms, we load the waste and leave the property clear.',
       'House clearance is different from a house move. We collect unwanted furniture, appliances, carpets, loft clutter and general household waste for recycling and licensed disposal. We do not relocate belongings to a new address.',
       'Call your local Rubbish Removal Team number for a quote. Price depends on volume and access. We confirm before we load so there are no surprise tip fees.',
     ],
@@ -381,7 +381,7 @@ export function serviceFaqs(service: ServicePage): ServiceFaq[] {
     ...service.faqs,
     {
       q: `Where do you offer ${service.name.toLowerCase()}?`,
-      a: `${SITE.name} provides ${service.name.toLowerCase()} across the West Midlands, Warwickshire, Worcestershire and Staffordshire. Open our locations page to find the local number for your town.`,
+      a: `${SITE.name} provides ${service.name.toLowerCase()} across the Midlands, Greater Manchester, Yorkshire, Cheshire and nearby towns. Open our locations page to find the local number for your town.`,
     },
   ];
 }
