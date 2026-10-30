@@ -475,40 +475,6 @@ p {
   color: var(--hivis) !important;
 }
 
-.marquee {
-  background: var(--hivis);
-  color: var(--hivis-ink);
-  overflow: hidden;
-  border-block: 4px solid var(--ink);
-}
-
-.marquee__track {
-  display: flex;
-  gap: 2.4rem;
-  width: max-content;
-  padding: 0.85rem 0;
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  animation: marquee 38s linear infinite;
-}
-
-.marquee__track span::after {
-  content: ' ■';
-  margin-left: 2.4rem;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 .section {
   padding: 5rem 0;
 }
@@ -1276,10 +1242,6 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation: none;
-  }
-
   html {
     scroll-behavior: auto;
   }
